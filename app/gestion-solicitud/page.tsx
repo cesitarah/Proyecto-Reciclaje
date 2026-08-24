@@ -1,79 +1,137 @@
+
 "use client";
 
 import Link from "next/link";
 
 export default function GestionSolicitudPage() {
   return (
-    <main className="min-h-screen bg-emerald-50/60 px-4 py-8 text-slate-800 md:px-8">
+    <main className="min-h-screen bg-[#F3F1E8] px-4 py-8 text-[#26382C] md:px-8">
       <div className="mx-auto max-w-2xl">
-        
+
         {/* BOTÓN VOLVER */}
         <div className="mb-6">
           <Link
             href="/vendedor-publicar-ofertas"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 hover:text-emerald-900 transition"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#6F806C] transition hover:text-[#40534A]"
           >
             ← Volver a mis ofertas
           </Link>
         </div>
 
         {/* CONTENEDOR PRINCIPAL */}
-        <section className="overflow-hidden rounded-2xl border border-emerald-100 bg-white shadow-sm">
-          
-          {/* ENCABEZADO "VENDEDOR" */}
-          <div className="bg-slate-900 px-6 py-4">
-            <h1 className="text-xl font-bold tracking-wider text-white">
+        <section className="overflow-hidden rounded-2xl border border-[#6D756D] bg-white shadow-lg">
+
+          {/* ENCABEZADO */}
+          <div className="bg-[#3D4641] px-6 py-4">
+            <h1 className="text-xl font-bold tracking-wider text-[#F5F3EC]">
               VENDEDOR
             </h1>
           </div>
 
-          <div className="p-6 md:p-8 space-y-6">
-            
-            {/* SECCIÓN: RESUMEN DEL PEDIDO */}
+          <div className="space-y-6 p-6 md:p-8">
+
+            {/* RESUMEN DEL PEDIDO */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600">
+
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
                 Resumen del pedido
               </label>
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700 space-y-2">
-                <div className="flex justify-between border-b border-slate-200 pb-2">
-                  <span className="font-medium text-slate-500">Material:</span>
-                  <span className="font-bold text-emerald-900">Plástico PET</span>
+
+              <div className="space-y-3 rounded-xl border border-[#D0D4CF] bg-[#F3F1E8] p-5">
+
+                <div className="flex justify-between border-b border-[#D0D4CF] pb-3">
+                  <span className="font-medium text-[#6D756D]">
+                    Material:
+                  </span>
+
+                  <span className="font-bold text-[#26382C]">
+                    Plástico PET
+                  </span>
                 </div>
-                <div className="flex justify-between border-b border-slate-200 pb-2">
-                  <span className="font-medium text-slate-500">Cantidad solicitada:</span>
-                  <span className="font-semibold text-slate-800">15 kg</span>
+
+                <div className="flex justify-between border-b border-[#D0D4CF] pb-3">
+                  <span className="font-medium text-[#6D756D]">
+                    Cantidad solicitada:
+                  </span>
+
+                  <span className="font-semibold text-[#26382C]">
+                    13 kg
+                  </span>
                 </div>
-                <div className="flex justify-between border-b border-slate-200 pb-2">
-                  <span className="font-medium text-slate-500">Comprador:</span>
-                  <span className="font-semibold text-slate-800">Juan Pérez</span>
+
+                <div className="flex justify-between border-b border-[#D0D4CF] pb-3">
+                  <span className="font-medium text-[#6D756D]">
+                    Ubicación:
+                  </span>
+
+                  <span className="font-semibold text-[#26382C]">
+                    Santa Cruz
+                  </span>
                 </div>
+
+                <div className="flex justify-between border-b border-[#D0D4CF] pb-3">
+                  <span className="font-medium text-[#6D756D]">
+                    Comprador:
+                  </span>
+
+                  <span className="font-semibold text-[#26382C]">
+                    Juan Pérez
+                  </span>
+                </div>
+
                 <div className="flex justify-between pt-1">
-                  <span className="font-medium text-slate-500">Total estimado:</span>
-                  <span className="font-bold text-emerald-700">$ 82.50</span>
+                  <span className="font-medium text-[#6D756D]">
+                    Total estimado:
+                  </span>
+
+                  <span className="font-bold text-[#6F806C]">
+                    $ 71.50
+                  </span>
                 </div>
+
               </div>
+
+              <p className="text-xs text-[#6D756D]">
+                Estos datos serán cargados automáticamente desde la solicitud realizada por el comprador.
+              </p>
+
             </div>
 
-            {/* SECCIÓN: DESCRIPCIÓN / MENSAJE DE ENTREGA */}
+            {/* DESCRIPCIÓN / INDICACIONES */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600">
-                Descripción / Instrucciones de entrega
+
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
+                Indicaciones de entrega
               </label>
+
               <textarea
-                rows={3}
-                placeholder="Indica al comprador el lugar, día y hora en que puede pasar a recoger el material..."
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm text-slate-800 outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-200 resize-none"
+                rows={4}
+                placeholder="Ej. Pasar el día lunes a las 11:00 de la mañana."
+                className="w-full resize-none rounded-xl border border-[#D0D4CF] bg-[#30262D] p-4 text-sm text-[#F5F3EC] outline-none transition placeholder-[#D6D0D3] focus:border-[#6F806C] focus:bg-[#3D4641] focus:ring-2 focus:ring-[#6F806C]"
               />
+
+              <p className="text-xs text-[#6D756D]">
+                Escriba aquí las indicaciones que desea enviar al comprador.
+              </p>
+
             </div>
 
-            {/* BOTÓN CONFIRMAR ENTREGA */}
-            <div className="flex justify-center pt-4">
-              <button
-                type="button"
-                className="w-full sm:w-auto rounded-full bg-emerald-600 px-10 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 active:scale-95"
-              >
-                Confirmar Entrega
-              </button>
+            {/* CONFIRMAR ENTREGA */}
+            <div className="border-t border-[#E2E4E0] pt-6">
+
+              <p className="mb-4 text-center text-sm text-[#6D756D]">
+                Al confirmar, las indicaciones serán enviadas al comprador y la solicitud cambiará de estado.
+              </p>
+
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  className="w-full rounded-full bg-[#6F806C] px-10 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#81937D] active:scale-95 sm:w-auto"
+                >
+                  Confirmar entrega
+                </button>
+              </div>
+
             </div>
 
           </div>
