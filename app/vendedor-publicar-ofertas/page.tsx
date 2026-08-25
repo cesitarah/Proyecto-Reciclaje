@@ -1,10 +1,46 @@
-
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function VendedorPublicarOfertas() {
+  const [cantidad, setCantidad] = useState("");
+  const [ubicacion, setUbicacion] = useState("");
+  const [mensaje, setMensaje] = useState("");
+
+  const publicarOferta = async () => {
+    setMensaje("");
+
+    try {
+      const response = await fetch("/api/ofertas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cantidad,
+          ubicacion,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMensaje(data.error || "Error al publicar.");
+        return;
+      }
+
+      setMensaje("¡Oferta publicada correctamente!");
+
+      setCantidad("");
+      setUbicacion("");
+    } catch (error) {
+      console.error(error);
+      setMensaje("Error de conexión.");
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[#F3F1E8] px-4 py-8 text-[#26382C] md:px-8">
       <div className="mx-auto max-w-5xl">
@@ -63,7 +99,7 @@ export default function VendedorPublicarOfertas() {
 
                 <input
                   type="text"
-                  value="Plástico PET"
+                  value="Plástico"
                   readOnly
                   className="w-full cursor-not-allowed rounded-xl border border-[#6D756D] bg-[#DDE3D9] px-4 py-2.5 text-sm font-medium text-[#40534A] outline-none"
                 />
@@ -82,6 +118,8 @@ export default function VendedorPublicarOfertas() {
                 <input
                   type="number"
                   min="1"
+                  value={cantidad}
+                  onChange={(e) => setCantidad(e.target.value)}
                   placeholder="Ej. 15"
                   className="w-full rounded-xl border border-[#6D756D] bg-[#30262D] px-4 py-2.5 text-sm text-[#F5F3EC] outline-none transition placeholder-[#D6D0D3] focus:border-[#6F806C] focus:ring-2 focus:ring-[#6F806C]"
                 />
@@ -95,6 +133,8 @@ export default function VendedorPublicarOfertas() {
 
                 <input
                   type="text"
+                  value={ubicacion}
+                  onChange={(e) => setUbicacion(e.target.value)}
                   placeholder="Ej. Santa Cruz"
                   className="w-full rounded-xl border border-[#6D756D] bg-[#30262D] px-4 py-2.5 text-sm text-[#F5F3EC] outline-none transition placeholder-[#D6D0D3] focus:border-[#6F806C] focus:ring-2 focus:ring-[#6F806C]"
                 />
@@ -112,8 +152,8 @@ export default function VendedorPublicarOfertas() {
                 </label>
 
                 <input
-                  type="number"
-                  value="5.50"
+                  type="text"
+                  value="Bs 1.50"
                   readOnly
                   className="w-full cursor-not-allowed rounded-xl border border-[#6D756D] bg-[#DDE3D9] px-4 py-2.5 text-sm font-medium text-[#40534A] outline-none"
                 />
@@ -130,12 +170,20 @@ export default function VendedorPublicarOfertas() {
 
               <button
                 type="button"
+                onClick={publicarOferta}
                 className="rounded-full bg-[#6F806C] px-10 py-2.5 font-semibold text-white shadow-sm transition hover:bg-[#81937D] active:scale-95"
               >
                 Publicar
               </button>
 
             </div>
+
+            {/* MENSAJE */}
+            {mensaje && (
+              <p className="text-center text-sm font-semibold text-[#40534A]">
+                {mensaje}
+              </p>
+            )}
 
           </form>
         </section>
@@ -187,7 +235,7 @@ export default function VendedorPublicarOfertas() {
                   </td>
 
                   <td className="px-4 py-4 font-semibold text-[#26382C]">
-                    Plástico PET
+                    Plástico
                   </td>
 
                   <td className="px-4 py-4">
@@ -278,5 +326,3 @@ export default function VendedorPublicarOfertas() {
     </main>
   );
 }
-
-
