@@ -1,6 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 export default function Login() {
+  const router = useRouter();
+
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push("/principal");
+  };
+
   return (
     <main className="min-h-screen w-full flex items-center justify-center bg-[#F3F1E8] p-6">
 
@@ -22,7 +31,10 @@ export default function Login() {
             </p>
 
             {/* FORMULARIO */}
-            <form className="w-full flex flex-col gap-5">
+            <form
+              className="w-full flex flex-col gap-5"
+              onSubmit={handleLogin}
+            >
 
               {/* NOMBRE */}
               <input

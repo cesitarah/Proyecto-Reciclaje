@@ -9,10 +9,10 @@ export default function Home() {
         </h1>
 
         <Link
-          href="/vendedor-publicar-ofertas"
+          href="/login"
           className="rounded-full bg-green-700 px-6 py-3 font-semibold text-white hover:bg-green-600"
         >
-          Ir a Vendedor
+          Ir a Login
         </Link>
       </div>
     </main>
