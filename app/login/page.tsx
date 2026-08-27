@@ -1,13 +1,61 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const [nombre, setNombre] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [mensaje, setMensaje] = useState("");
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push("/principal");
+
+    setMensaje("");
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre,
+          contrasena,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMensaje(data.error || "No se pudo iniciar sesión.");
+        return;
+      }
+
+      // Redirección según el rol
+      if (data.usuario.rol === "Administrador") {
+        router.push("/administrador");
+        return;
+      }
+
+      if (data.usuario.rol === "Vendedor") {
+        router.push("/principal");
+        return;
+      }
+
+      if (data.usuario.rol === "Comprador") {
+        router.push("/principal");
+        return;
+      }
+
+      setMensaje("El rol del usuario no es válido.");
+
+    } catch (error) {
+      console.error(error);
+      setMensaje("Error de conexión con el servidor.");
+    }
   };
 
   return (
@@ -39,6 +87,8 @@ export default function Login() {
               {/* NOMBRE */}
               <input
                 type="text"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
                 placeholder="Nombre:"
                 className="w-full h-11 rounded-xl bg-[#30262D] text-[#F5F3EC] px-4 outline-none placeholder-[#D6D0D3] focus:ring-2 focus:ring-[#A8B39F]"
               />
@@ -46,6 +96,8 @@ export default function Login() {
               {/* CONTRASEÑA */}
               <input
                 type="password"
+                value={contrasena}
+                onChange={(e) => setContrasena(e.target.value)}
                 placeholder="Contraseña:"
                 className="w-full h-11 rounded-xl bg-[#30262D] text-[#F5F3EC] px-4 outline-none placeholder-[#D6D0D3] focus:ring-2 focus:ring-[#A8B39F]"
               />
@@ -59,6 +111,13 @@ export default function Login() {
               </button>
 
             </form>
+
+            {/* MENSAJE */}
+            {mensaje && (
+              <p className="mt-3 text-center text-xs font-serif text-[#F5F3EC]">
+                {mensaje}
+              </p>
+            )}
 
             {/* BOTON REGISTRARSE */}
             <a

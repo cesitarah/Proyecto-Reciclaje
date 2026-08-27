@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
 const materiales = [
   {
@@ -46,7 +47,10 @@ const materiales = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const rol = cookieStore.get("usuario_rol")?.value;
+
   return (
     <main className="min-h-screen bg-[#F3F1E8] px-4 py-5 md:px-8">
 
@@ -62,7 +66,7 @@ export default function Home() {
             </h1>
           </div>
 
-          {/* BANNER MÁS PEQUEÑO */}
+          {/* BANNER */}
           <div className="relative h-40 overflow-hidden md:h-48">
 
             <Image
@@ -100,56 +104,79 @@ export default function Home() {
               Materiales reciclables
             </h2>
 
+            <p className="mt-1 text-sm text-[#6D756D]">
+              Selecciona un material para continuar
+            </p>
+
           </div>
 
           {/* GRID DE TARJETAS */}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
 
-            {materiales.map((material) => (
-              <Link
-                key={material.nombre}
-                href={`/comprador-buscar-ofertas?material=${encodeURIComponent(
+            {materiales.map((material) => {
+
+              let ruta = "#";
+
+              if (rol === "Comprador") {
+                ruta = `/comprador-buscar-ofertas?material=${encodeURIComponent(
                   material.nombre
-                )}`}
-                className="group overflow-hidden rounded-xl border border-[#6D756D] bg-[#A8B39F] shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md"
-              >
+                )}`;
+              }
 
-                {/* NOMBRE */}
-                <div className="px-3 pt-3 text-center">
+              if (rol === "Vendedor") {
+                ruta = `/vendedor-publicar-ofertas?material=${encodeURIComponent(
+                  material.nombre
+                )}`;
+              }
 
-                  <h3 className="text-sm font-semibold text-[#26382C]">
-                    {material.nombre}
-                  </h3>
+              if (rol === "Administrador") {
+                ruta = "/admin";
+              }
 
-                </div>
+              return (
+                <Link
+                  key={material.nombre}
+                  href={ruta}
+                  className="group overflow-hidden rounded-xl border border-[#6D756D] bg-[#A8B39F] shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md"
+                >
 
-                {/* IMAGEN MÁS PEQUEÑA */}
-                <div className="relative mx-3 mt-2 h-24 overflow-hidden rounded-lg">
+                  {/* NOMBRE */}
+                  <div className="px-3 pt-3 text-center">
 
-                  <Image
-                    src={material.imagen}
-                    alt={material.nombre}
-                    fill
-                    className="object-cover transition duration-300 group-hover:scale-105"
-                  />
+                    <h3 className="text-sm font-semibold text-[#26382C]">
+                      {material.nombre}
+                    </h3>
 
-                </div>
+                  </div>
 
-                {/* INFORMACIÓN */}
-                <div className="px-3 py-3 text-center">
+                  {/* IMAGEN */}
+                  <div className="relative mx-3 mt-2 h-24 overflow-hidden rounded-lg">
 
-                  <p className="min-h-[32px] text-[11px] leading-4 text-[#40534A]">
-                    {material.descripcion}
-                  </p>
+                    <Image
+                      src={material.imagen}
+                      alt={material.nombre}
+                      fill
+                      className="object-cover transition duration-300 group-hover:scale-105"
+                    />
 
-                  <p className="mt-1.5 text-sm font-bold text-[#26382C]">
-                    {material.precio}
-                  </p>
+                  </div>
 
-                </div>
+                  {/* INFORMACIÓN */}
+                  <div className="px-3 py-3 text-center">
 
-              </Link>
-            ))}
+                    <p className="min-h-[32px] text-[11px] leading-4 text-[#40534A]">
+                      {material.descripcion}
+                    </p>
+
+                    <p className="mt-1.5 text-sm font-bold text-[#26382C]">
+                      {material.precio}
+                    </p>
+
+                  </div>
+
+                </Link>
+              );
+            })}
 
           </div>
 

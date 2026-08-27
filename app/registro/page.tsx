@@ -1,8 +1,57 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 
 export default function Register() {
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [tipoUsuario, setTipoUsuario] = useState("");
+  const [mensaje, setMensaje] = useState("");
+
+  const handleRegistro = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setMensaje("");
+
+    try {
+      const response = await fetch("/api/registro", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre,
+          correo,
+          telefono,
+          contrasena,
+          tipoUsuario,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMensaje(data.error || "No se pudo crear la cuenta.");
+        return;
+      }
+
+      setMensaje("¡Cuenta creada correctamente!");
+
+      setNombre("");
+      setCorreo("");
+      setTelefono("");
+      setContrasena("");
+      setTipoUsuario("");
+
+    } catch (error) {
+      console.error(error);
+      setMensaje("Error de conexión con el servidor.");
+    }
+  };
+
   return (
     <main className="min-h-screen w-full flex items-center justify-center bg-[#F3F1E8] py-6">
 
@@ -10,11 +59,14 @@ export default function Register() {
 
         {/* LOGO Y TITULO */}
         <div className="flex justify-center mb-5">
+
           <div className="flex items-center gap-3">
 
             {/* LOGO */}
             <div className="w-[65px] h-[55px] bg-[#FAF9F4] flex items-center justify-center">
-              <span className="text-3xl">♻️</span>
+              <span className="text-3xl">
+                ♻️
+              </span>
             </div>
 
             {/* NOMBRE */}
@@ -29,10 +81,14 @@ export default function Register() {
             </div>
 
           </div>
+
         </div>
 
         {/* FORMULARIO */}
-        <form className="flex flex-col gap-1.5">
+        <form
+          className="flex flex-col gap-1.5"
+          onSubmit={handleRegistro}
+        >
 
           {/* NOMBRE COMPLETO */}
           <label className="text-[13px] font-serif text-[#26382C]">
@@ -41,6 +97,8 @@ export default function Register() {
 
           <input
             type="text"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
             className="w-full h-8 rounded-md bg-[#FAF9F4] px-3 text-[#26382C] outline-none border border-[#D8D8D0] focus:border-[#607A64]"
           />
 
@@ -50,7 +108,9 @@ export default function Register() {
           </label>
 
           <input
-            type="text"
+            type="email"
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
             className="w-full h-8 rounded-md bg-[#FAF9F4] px-3 text-[#26382C] outline-none border border-[#D8D8D0] focus:border-[#607A64]"
           />
 
@@ -61,16 +121,8 @@ export default function Register() {
 
           <input
             type="tel"
-            className="w-full h-8 rounded-md bg-[#FAF9F4] px-3 text-[#26382C] outline-none border border-[#D8D8D0] focus:border-[#607A64]"
-          />
-
-          {/* DIRECCIÓN */}
-          <label className="text-[13px] font-serif text-[#26382C] mt-1">
-            Dirección
-          </label>
-
-          <input
-            type="text"
+            value={telefono}
+            onChange={(e) => setTelefono(e.target.value)}
             className="w-full h-8 rounded-md bg-[#FAF9F4] px-3 text-[#26382C] outline-none border border-[#D8D8D0] focus:border-[#607A64]"
           />
 
@@ -81,6 +133,8 @@ export default function Register() {
 
           <input
             type="password"
+            value={contrasena}
+            onChange={(e) => setContrasena(e.target.value)}
             className="w-full h-8 rounded-md bg-[#FAF9F4] px-3 text-[#26382C] outline-none border border-[#D8D8D0] focus:border-[#607A64]"
           />
 
@@ -93,6 +147,7 @@ export default function Register() {
 
             {/* COMPRADOR */}
             <label className="flex flex-col items-center cursor-pointer">
+
               <span className="text-[13px] font-serif text-[#26382C]">
                 Comprador
               </span>
@@ -100,13 +155,17 @@ export default function Register() {
               <input
                 type="radio"
                 name="tipoUsuario"
-                value="comprador"
+                value="Comprador"
+                checked={tipoUsuario === "Comprador"}
+                onChange={(e) => setTipoUsuario(e.target.value)}
                 className="mt-1 w-4 h-4 accent-[#607A64]"
               />
+
             </label>
 
             {/* VENDEDOR */}
             <label className="flex flex-col items-center cursor-pointer">
+
               <span className="text-[13px] font-serif text-[#26382C]">
                 Vendedor
               </span>
@@ -114,9 +173,12 @@ export default function Register() {
               <input
                 type="radio"
                 name="tipoUsuario"
-                value="vendedor"
+                value="Vendedor"
+                checked={tipoUsuario === "Vendedor"}
+                onChange={(e) => setTipoUsuario(e.target.value)}
                 className="mt-1 w-4 h-4 accent-[#607A64]"
               />
+
             </label>
 
           </div>
@@ -132,6 +194,13 @@ export default function Register() {
             </button>
 
           </div>
+
+          {/* MENSAJE */}
+          {mensaje && (
+            <p className="mt-3 text-center text-[12px] font-serif text-[#26382C]">
+              {mensaje}
+            </p>
+          )}
 
         </form>
 
