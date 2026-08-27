@@ -1,16 +1,106 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
+type Oferta = {
+  id_oferta: number;
+  cantidad_disponible: string | number;
+  ubicacion: string;
+  estado: string;
+  material: {
+    nombre: string;
+    precio_por_kg: string | number;
+  };
+};
+
 export default function VendedorPublicarOfertas() {
+  const searchParams = useSearchParams();
+
+  const materialSeleccionado =
+    searchParams.get("material") || "Plástico";
+
   const [cantidad, setCantidad] = useState("");
   const [ubicacion, setUbicacion] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [ofertas, setOfertas] = useState<Oferta[]>([]);
+  const [precio, setPrecio] = useState("Cargando...");
 
+  /* ==========================================
+     CARGAR PRECIO DEL MATERIAL
+  ========================================== */
+  const cargarPrecio = async () => {
+    try {
+      const response = await fetch(
+        `/api/materiales?nombre=${encodeURIComponent(
+          materialSeleccionado
+        )}`
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setPrecio("No disponible");
+        return;
+      }
+
+      setPrecio(`Bs ${data.precio_por_kg}`);
+
+    } catch (error) {
+      console.error(error);
+      setPrecio("No disponible");
+    }
+  };
+
+  /* ==========================================
+     CARGAR MIS OFERTAS
+  ========================================== */
+  const cargarOfertas = async () => {
+    try {
+      /*
+        No enviamos material aquí.
+        La API reconoce que somos vendedores
+        y devuelve únicamente nuestras ofertas.
+      */
+      const response = await fetch("/api/ofertas");
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMensaje(
+          data.error || "No se pudieron cargar las ofertas."
+        );
+        return;
+      }
+
+      setOfertas(data);
+
+    } catch (error) {
+      console.error(error);
+      setMensaje("Error de conexión.");
+    }
+  };
+
+  /* ==========================================
+     CARGAR DATOS INICIALES
+  ========================================== */
+  useEffect(() => {
+    cargarPrecio();
+    cargarOfertas();
+  }, [materialSeleccionado]);
+
+  /* ==========================================
+     PUBLICAR OFERTA
+  ========================================== */
   const publicarOferta = async () => {
     setMensaje("");
+
+    if (!cantidad || !ubicacion) {
+      setMensaje("Completa la cantidad y la ubicación.");
+      return;
+    }
 
     try {
       const response = await fetch("/api/ofertas", {
@@ -21,13 +111,16 @@ export default function VendedorPublicarOfertas() {
         body: JSON.stringify({
           cantidad,
           ubicacion,
+          nombreMaterial: materialSeleccionado,
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setMensaje(data.error || "Error al publicar.");
+        setMensaje(
+          data.error || "Error al publicar la oferta."
+        );
         return;
       }
 
@@ -35,6 +128,10 @@ export default function VendedorPublicarOfertas() {
 
       setCantidad("");
       setUbicacion("");
+
+      /* Actualizar la tabla inmediatamente */
+      cargarOfertas();
+
     } catch (error) {
       console.error(error);
       setMensaje("Error de conexión.");
@@ -43,18 +140,21 @@ export default function VendedorPublicarOfertas() {
 
   return (
     <main className="min-h-screen bg-[#F3F1E8] px-4 py-8 text-[#26382C] md:px-8">
+
       <div className="mx-auto max-w-5xl">
 
         {/* ENCABEZADO */}
         <section className="overflow-hidden rounded-2xl border border-[#6D756D] bg-white shadow-lg">
 
           <div className="bg-[#3D4641] px-6 py-3">
+
             <h1 className="text-xl font-bold tracking-wider text-[#F5F3EC]">
               VENDEDOR
             </h1>
+
           </div>
 
-          {/* BANNER DE RECICLAJE */}
+          {/* BANNER */}
           <div className="relative flex h-40 w-full items-center justify-center overflow-hidden px-6 text-center text-white shadow-inner">
 
             <Image
@@ -67,6 +167,7 @@ export default function VendedorPublicarOfertas() {
             <div className="absolute inset-0 bg-[#40534A]/65"></div>
 
             <div className="relative z-10 space-y-1">
+
               <span className="block text-2xl font-black tracking-widest text-[#F5F3EC] drop-shadow">
                 RECYCLE
               </span>
@@ -74,9 +175,11 @@ export default function VendedorPublicarOfertas() {
               <p className="text-xs font-medium text-[#DDE3D9]">
                 Plataforma de gestión de residuos y materiales
               </p>
+
             </div>
 
           </div>
+
         </section>
 
         {/* PUBLICAR NUEVO LOTE */}
@@ -86,20 +189,21 @@ export default function VendedorPublicarOfertas() {
             PUBLICAR NUEVO LOTE
           </h2>
 
-          <form className="space-y-6">
+          <div className="space-y-6">
 
             {/* FILA 1 */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 
-              {/* MATERIAL SELECCIONADO AUTOMÁTICAMENTE */}
+              {/* MATERIAL */}
               <div>
+
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
                   Material
                 </label>
 
                 <input
                   type="text"
-                  value="Plástico"
+                  value={materialSeleccionado}
                   readOnly
                   className="w-full cursor-not-allowed rounded-xl border border-[#6D756D] bg-[#DDE3D9] px-4 py-2.5 text-sm font-medium text-[#40534A] outline-none"
                 />
@@ -107,10 +211,12 @@ export default function VendedorPublicarOfertas() {
                 <p className="mt-1.5 text-xs text-[#40534A]">
                   Material seleccionado automáticamente.
                 </p>
+
               </div>
 
               {/* CANTIDAD */}
               <div>
+
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
                   Cantidad disponible (kg)
                 </label>
@@ -123,10 +229,12 @@ export default function VendedorPublicarOfertas() {
                   placeholder="Ej. 15"
                   className="w-full rounded-xl border border-[#6D756D] bg-[#30262D] px-4 py-2.5 text-sm text-[#F5F3EC] outline-none transition placeholder-[#D6D0D3] focus:border-[#6F806C] focus:ring-2 focus:ring-[#6F806C]"
                 />
+
               </div>
 
               {/* UBICACIÓN */}
               <div>
+
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
                   Ubicación
                 </label>
@@ -138,6 +246,7 @@ export default function VendedorPublicarOfertas() {
                   placeholder="Ej. Santa Cruz"
                   className="w-full rounded-xl border border-[#6D756D] bg-[#30262D] px-4 py-2.5 text-sm text-[#F5F3EC] outline-none transition placeholder-[#D6D0D3] focus:border-[#6F806C] focus:ring-2 focus:ring-[#6F806C]"
                 />
+
               </div>
 
             </div>
@@ -145,15 +254,16 @@ export default function VendedorPublicarOfertas() {
             {/* FILA 2 */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 
-              {/* PRECIO AUTOMÁTICO */}
+              {/* PRECIO */}
               <div>
+
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
                   Precio establecido ($/kg)
                 </label>
 
                 <input
                   type="text"
-                  value="Bs 1.50"
+                  value={precio}
                   readOnly
                   className="w-full cursor-not-allowed rounded-xl border border-[#6D756D] bg-[#DDE3D9] px-4 py-2.5 text-sm font-medium text-[#40534A] outline-none"
                 />
@@ -161,6 +271,7 @@ export default function VendedorPublicarOfertas() {
                 <p className="mt-1.5 text-xs text-[#40534A]">
                   Precio establecido por el administrador.
                 </p>
+
               </div>
 
             </div>
@@ -185,7 +296,7 @@ export default function VendedorPublicarOfertas() {
               </p>
             )}
 
-          </form>
+          </div>
         </section>
 
         {/* MIS OFERTAS ACTUALES */}
@@ -197,9 +308,10 @@ export default function VendedorPublicarOfertas() {
 
           <div className="overflow-x-auto">
 
-            <table className="w-full min-w-[650px] text-left text-sm">
+            <table className="w-full min-w-[700px] text-left text-sm">
 
               <thead>
+
                 <tr className="border-b border-[#D0D4CF] text-xs font-semibold uppercase tracking-wider text-[#40534A]">
 
                   <th className="px-4 py-3">
@@ -222,103 +334,97 @@ export default function VendedorPublicarOfertas() {
                     Status
                   </th>
 
+                  <th className="px-4 py-3">
+                    Acción
+                  </th>
+
                 </tr>
+
               </thead>
 
               <tbody className="divide-y divide-[#E2E4E0]">
 
-                {/* OFERTA 1 */}
-                <tr className="bg-[#DDE3D9] font-medium text-[#26382C]">
+                {ofertas.length === 0 ? (
 
-                  <td className="px-4 py-4 font-bold text-[#40534A]">
-                    01
-                  </td>
+                  <tr>
 
-                  <td className="px-4 py-4 font-semibold text-[#26382C]">
-                    Plástico
-                  </td>
-
-                  <td className="px-4 py-4">
-                    15 kg
-                  </td>
-
-                  <td className="px-4 py-4">
-                    Santa Cruz
-                  </td>
-
-                  <td className="px-4 py-4">
-
-                    <span className="inline-flex items-center rounded-full bg-[#B8D4D8] px-3 py-1 text-xs font-bold text-[#26382C]">
-                      Disponible
-                    </span>
-
-                  </td>
-
-                </tr>
-
-                {/* OFERTA 2 - SOLICITADA */}
-                <tr className="transition hover:bg-[#F3F1E8]">
-
-                  <td className="px-4 py-4 text-[#6D756D]">
-                    02
-                  </td>
-
-                  <td className="px-4 py-4 font-medium text-[#40534A]">
-                    Cartón
-                  </td>
-
-                  <td className="px-4 py-4 text-[#6D756D]">
-                    10 kg
-                  </td>
-
-                  <td className="px-4 py-4 text-[#6D756D]">
-                    Santa Cruz
-                  </td>
-
-                  <td className="px-4 py-4">
-
-                    <Link
-                      href="/gestion-solicitud"
-                      className="inline-flex items-center rounded-full border border-[#D4C8CC] bg-[#F0E7E9] px-3 py-1 text-xs font-semibold text-[#6B555E] transition hover:bg-[#E7DDE0]"
+                    <td
+                      colSpan={6}
+                      className="px-4 py-8 text-center text-sm text-[#6D756D]"
                     >
-                      Solicitada
-                    </Link>
+                      Todavía no tienes ofertas publicadas.
+                    </td>
 
-                  </td>
+                  </tr>
 
-                </tr>
+                ) : (
 
-                {/* OFERTA 3 */}
-                <tr className="transition hover:bg-[#F3F1E8]">
+                  ofertas.map((oferta, index) => (
 
-                  <td className="px-4 py-4 text-[#6D756D]">
-                    03
-                  </td>
+                    <tr
+                      key={oferta.id_oferta}
+                      className={
+                        index === 0
+                          ? "bg-[#DDE3D9] font-medium text-[#26382C]"
+                          : "transition hover:bg-[#F3F1E8]"
+                      }
+                    >
 
-                  <td className="px-4 py-4 font-medium text-[#40534A]">
-                    Vidrio
-                  </td>
+                      <td className="px-4 py-4 font-bold text-[#40534A]">
+                        {String(index + 1).padStart(2, "0")}
+                      </td>
 
-                  <td className="px-4 py-4 text-[#6D756D]">
-                    20 kg
-                  </td>
+                      <td className="px-4 py-4 font-semibold text-[#26382C]">
+                        {oferta.material.nombre}
+                      </td>
 
-                  <td className="px-4 py-4 text-[#6D756D]">
-                    Santa Cruz
-                  </td>
+                      <td className="px-4 py-4">
+                        {String(oferta.cantidad_disponible)} kg
+                      </td>
 
-                  <td className="px-4 py-4">
+                      <td className="px-4 py-4">
+                        {oferta.ubicacion}
+                      </td>
 
-                    <span className="inline-flex items-center rounded-full bg-[#E6E8E4] px-3 py-1 text-xs font-semibold text-[#6D756D]">
-                      Agotada
-                    </span>
+                      <td className="px-4 py-4">
 
-                  </td>
+                        <span className="inline-flex items-center rounded-full bg-[#B8D4D8] px-3 py-1 text-xs font-bold text-[#26382C]">
+                          {oferta.estado}
+                        </span>
 
-                </tr>
+                      </td>
+
+                      <td className="px-4 py-4">
+
+                        {oferta.estado === "Solicitada" ? (
+
+                          <Link
+                            href="/gestion-solicitud"
+                            className="inline-flex items-center rounded-lg border border-[#D4C8CC] bg-[#F0E7E9] px-3 py-1.5 text-xs font-semibold text-[#6B555E] transition hover:bg-[#E7DDE0]"
+                          >
+                            Ver solicitud
+                          </Link>
+
+                        ) : (
+
+                          <span className="text-xs text-[#6D756D]">
+                            Sin solicitudes
+                          </span>
+
+                        )}
+
+                      </td>
+
+                    </tr>
+
+                  ))
+
+                )}
 
               </tbody>
+
             </table>
+
           </div>
         </section>
 
