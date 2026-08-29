@@ -45,7 +45,6 @@ export default function Register() {
       setTelefono("");
       setContrasena("");
       setTipoUsuario("");
-
     } catch (error) {
       console.error(error);
       setMensaje("Error de conexión con el servidor.");
@@ -53,45 +52,41 @@ export default function Register() {
   };
 
   return (
-    <main className="min-h-screen w-full flex items-center justify-center bg-[#F3F1E8] py-6">
+    <main className="min-h-screen w-full flex items-center justify-center bg-[#E8F6FA] px-4 py-5">
 
-      <div className="w-[330px] rounded-lg bg-[#A8B39F] px-7 py-4 shadow-md">
+      {/* ================= CUADRO PRINCIPAL ================= */}
+      <div className="w-full max-w-[390px] rounded-2xl bg-[#E8F5EC] px-7 py-5 shadow-xl border border-[#A8D5BA]">
 
-        {/* LOGO Y TITULO */}
-        <div className="flex justify-center mb-5">
+        {/* ================= LOGO Y TÍTULO ================= */}
+        <div className="flex flex-col items-center mb-4">
 
-          <div className="flex items-center gap-3">
-
-            {/* LOGO */}
-            <div className="w-[65px] h-[55px] bg-[#FAF9F4] flex items-center justify-center">
-              <span className="text-3xl">
-                ♻️
-              </span>
-            </div>
-
-            {/* NOMBRE */}
-            <div>
-              <h1 className="text-[22px] font-serif text-[#26382C]">
-                NUEVA VIDA
-              </h1>
-
-              <p className="text-[13px] font-serif text-[#26382C] text-center">
-                Crea tu cuenta
-              </p>
-            </div>
-
+          {/* ICONO */}
+          <div className="flex h-11 w-11 items-center justify-center">
+            <span className="text-[30px] leading-none">
+              ♻️
+            </span>
           </div>
+
+          {/* TÍTULO */}
+          <h1 className="mt-1 text-[22px] font-serif font-bold tracking-wider text-[#39734A]">
+            NUEVA VIDA
+          </h1>
+
+          {/* SUBTÍTULO */}
+          <p className="text-[12px] font-serif text-[#4F7560]">
+            Crea tu cuenta
+          </p>
 
         </div>
 
-        {/* FORMULARIO */}
+        {/* ================= FORMULARIO ================= */}
         <form
-          className="flex flex-col gap-1.5"
+          className="flex flex-col"
           onSubmit={handleRegistro}
         >
 
-          {/* NOMBRE COMPLETO */}
-          <label className="text-[13px] font-serif text-[#26382C]">
+          {/* NOMBRE */}
+          <label className="text-[12px] font-serif text-[#31583D]">
             Nombre completo
           </label>
 
@@ -99,11 +94,26 @@ export default function Register() {
             type="text"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className="w-full h-8 rounded-md bg-[#FAF9F4] px-3 text-[#26382C] outline-none border border-[#D8D8D0] focus:border-[#607A64]"
+            className="
+              mt-1
+              h-8
+              w-full
+              rounded-lg
+              border
+              border-[#B9E6F2]
+              bg-[#FFFDF5]
+              px-3
+              text-[12px]
+              text-[#31583D]
+              outline-none
+              focus:border-[#6FAF7B]
+              focus:ring-1
+              focus:ring-[#B9E6F2]
+            "
           />
 
-          {/* CORREO ELECTRÓNICO */}
-          <label className="text-[13px] font-serif text-[#26382C] mt-1">
+          {/* CORREO */}
+          <label className="mt-2.5 text-[12px] font-serif text-[#31583D]">
             Correo electrónico
           </label>
 
@@ -111,11 +121,26 @@ export default function Register() {
             type="email"
             value={correo}
             onChange={(e) => setCorreo(e.target.value)}
-            className="w-full h-8 rounded-md bg-[#FAF9F4] px-3 text-[#26382C] outline-none border border-[#D8D8D0] focus:border-[#607A64]"
+            className="
+              mt-1
+              h-8
+              w-full
+              rounded-lg
+              border
+              border-[#B9E6F2]
+              bg-[#FFFDF5]
+              px-3
+              text-[12px]
+              text-[#31583D]
+              outline-none
+              focus:border-[#6FAF7B]
+              focus:ring-1
+              focus:ring-[#B9E6F2]
+            "
           />
 
           {/* TELÉFONO */}
-          <label className="text-[13px] font-serif text-[#26382C] mt-1">
+          <label className="mt-2.5 text-[12px] font-serif text-[#31583D]">
             Teléfono
           </label>
 
@@ -123,11 +148,26 @@ export default function Register() {
             type="tel"
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
-            className="w-full h-8 rounded-md bg-[#FAF9F4] px-3 text-[#26382C] outline-none border border-[#D8D8D0] focus:border-[#607A64]"
+            className="
+              mt-1
+              h-8
+              w-full
+              rounded-lg
+              border
+              border-[#B9E6F2]
+              bg-[#FFFDF5]
+              px-3
+              text-[12px]
+              text-[#31583D]
+              outline-none
+              focus:border-[#6FAF7B]
+              focus:ring-1
+              focus:ring-[#B9E6F2]
+            "
           />
 
           {/* CONTRASEÑA */}
-          <label className="text-[13px] font-serif text-[#26382C] mt-1">
+          <label className="mt-2.5 text-[12px] font-serif text-[#31583D]">
             Contraseña
           </label>
 
@@ -135,20 +175,35 @@ export default function Register() {
             type="password"
             value={contrasena}
             onChange={(e) => setContrasena(e.target.value)}
-            className="w-full h-8 rounded-md bg-[#FAF9F4] px-3 text-[#26382C] outline-none border border-[#D8D8D0] focus:border-[#607A64]"
+            className="
+              mt-1
+              h-8
+              w-full
+              rounded-lg
+              border
+              border-[#B9E6F2]
+              bg-[#FFFDF5]
+              px-3
+              text-[12px]
+              text-[#31583D]
+              outline-none
+              focus:border-[#6FAF7B]
+              focus:ring-1
+              focus:ring-[#B9E6F2]
+            "
           />
 
-          {/* TIPO DE USUARIO */}
-          <p className="text-center text-[13px] font-serif text-[#26382C] mt-2">
+          {/* ================= TIPO DE USUARIO ================= */}
+          <p className="mt-4 text-center text-[13px] font-serif text-[#31583D]">
             ¿Cómo quieres registrarte?
           </p>
 
-          <div className="flex justify-center gap-16 mt-2">
+          <div className="mt-2 flex justify-center gap-14">
 
             {/* COMPRADOR */}
-            <label className="flex flex-col items-center cursor-pointer">
+            <label className="flex cursor-pointer flex-col items-center">
 
-              <span className="text-[13px] font-serif text-[#26382C]">
+              <span className="text-[12px] font-serif text-[#31583D]">
                 Comprador
               </span>
 
@@ -158,15 +213,15 @@ export default function Register() {
                 value="Comprador"
                 checked={tipoUsuario === "Comprador"}
                 onChange={(e) => setTipoUsuario(e.target.value)}
-                className="mt-1 w-4 h-4 accent-[#607A64]"
+                className="mt-1 h-4 w-4 accent-[#6FAF7B]"
               />
 
             </label>
 
             {/* VENDEDOR */}
-            <label className="flex flex-col items-center cursor-pointer">
+            <label className="flex cursor-pointer flex-col items-center">
 
-              <span className="text-[13px] font-serif text-[#26382C]">
+              <span className="text-[12px] font-serif text-[#31583D]">
                 Vendedor
               </span>
 
@@ -176,44 +231,57 @@ export default function Register() {
                 value="Vendedor"
                 checked={tipoUsuario === "Vendedor"}
                 onChange={(e) => setTipoUsuario(e.target.value)}
-                className="mt-1 w-4 h-4 accent-[#607A64]"
+                className="mt-1 h-4 w-4 accent-[#6FAF7B]"
               />
 
             </label>
 
           </div>
 
-          {/* BOTÓN CREAR CUENTA */}
-          <div className="flex justify-center mt-5">
+          {/* ================= BOTÓN ================= */}
+          <div className="mt-4 flex justify-center">
 
             <button
               type="submit"
-              className="bg-[#607A64] hover:bg-[#506653] text-[#FAF9F4] rounded-md px-8 py-2 font-serif text-[13px] transition-colors"
+              className="
+                rounded-lg
+                bg-[#6FAF7B]
+                px-7
+                py-2
+                font-serif
+                text-[12px]
+                font-semibold
+                text-white
+                shadow-sm
+                transition
+                hover:bg-[#5F9E6B]
+                active:scale-95
+              "
             >
               Crear cuenta
             </button>
 
           </div>
 
-          {/* MENSAJE */}
+          {/* ================= MENSAJE ================= */}
           {mensaje && (
-            <p className="mt-3 text-center text-[12px] font-serif text-[#26382C]">
+            <p className="mt-2 text-center text-[11px] font-serif text-[#39734A]">
               {mensaje}
             </p>
           )}
 
         </form>
 
-        {/* VOLVER AL LOGIN */}
-        <div className="flex justify-center items-center gap-2 mt-4 text-[12px] font-serif">
+        {/* ================= LOGIN ================= */}
+        <div className="mt-3 flex items-center justify-center gap-2 text-[11px] font-serif">
 
-          <span className="text-[#26382C]">
+          <span className="text-[#31583D]">
             ¿Ya tienes una cuenta?
           </span>
 
           <Link
             href="/login"
-            className="text-[#496A50] hover:text-[#304A36]"
+            className="font-semibold text-[#4C8A91] hover:text-[#326A70]"
           >
             Iniciar sesión
           </Link>
