@@ -59,22 +59,22 @@ export default function Login() {
   };
 
   return (
-    <main className="min-h-screen w-full flex items-center justify-center bg-[#F3F1E8] p-6">
+    <main className="min-h-screen w-full flex items-center justify-center bg-[#E8F6FA] p-6">
 
       {/* CONTENEDOR PRINCIPAL */}
-      <div className="w-full max-w-[750px] h-[500px] flex rounded-2xl overflow-hidden shadow-lg border border-[#6D756D]">
+      <div className="w-full max-w-[750px] h-[500px] flex rounded-2xl overflow-hidden shadow-xl border border-[#A8D5BA]">
 
         {/* ================= LADO IZQUIERDO ================= */}
-        <div className="w-1/2 bg-[#A8B39F] flex items-center justify-center">
+        <div className="w-1/2 bg-[#A8D5BA] flex items-center justify-center">
 
-          <div className="w-[275px] h-[390px] rounded-2xl bg-[#3D4641] flex flex-col items-center justify-center px-8">
+          <div className="w-[275px] h-[390px] rounded-2xl bg-[#E8F5EC] flex flex-col items-center justify-center px-8 shadow-md">
 
             {/* TITULO */}
-            <h1 className="text-2xl font-serif text-[#F5F3EC] mb-2">
+            <h1 className="text-2xl font-serif font-bold text-[#39734A] mb-2">
               NUEVA VIDA
             </h1>
 
-            <p className="text-sm font-serif text-[#DDE3D9] mb-10">
+            <p className="text-sm font-serif text-[#4F7560] mb-10">
               Iniciar sesión
             </p>
 
@@ -89,8 +89,22 @@ export default function Login() {
                 type="text"
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
-                placeholder="Nombre:"
-                className="w-full h-11 rounded-xl bg-[#30262D] text-[#F5F3EC] px-4 outline-none placeholder-[#D6D0D3] focus:ring-2 focus:ring-[#A8B39F]"
+                placeholder="Nombre"
+                className="
+                  w-full
+                  h-11
+                  rounded-xl
+                  bg-[#FFFDF5]
+                  text-[#31583D]
+                  px-4
+                  outline-none
+                  border
+                  border-[#B9E6F2]
+                  placeholder-[#789083]
+                  focus:border-[#6FAF7B]
+                  focus:ring-2
+                  focus:ring-[#B9E6F2]
+                "
               />
 
               {/* CONTRASEÑA */}
@@ -98,14 +112,42 @@ export default function Login() {
                 type="password"
                 value={contrasena}
                 onChange={(e) => setContrasena(e.target.value)}
-                placeholder="Contraseña:"
-                className="w-full h-11 rounded-xl bg-[#30262D] text-[#F5F3EC] px-4 outline-none placeholder-[#D6D0D3] focus:ring-2 focus:ring-[#A8B39F]"
+                placeholder="Contraseña"
+                className="
+                  w-full
+                  h-11
+                  rounded-xl
+                  bg-[#FFFDF5]
+                  text-[#31583D]
+                  px-4
+                  outline-none
+                  border
+                  border-[#B9E6F2]
+                  placeholder-[#789083]
+                  focus:border-[#6FAF7B]
+                  focus:ring-2
+                  focus:ring-[#B9E6F2]
+                "
               />
 
               {/* BOTON INGRESAR */}
               <button
                 type="submit"
-                className="mx-auto mt-8 px-6 py-2 rounded-lg bg-[#6F806C] text-white font-serif text-sm hover:bg-[#81937D] transition-colors"
+                className="
+                  mx-auto
+                  mt-8
+                  px-7
+                  py-2
+                  rounded-lg
+                  bg-[#6FAF7B]
+                  text-white
+                  font-serif
+                  text-sm
+                  font-semibold
+                  shadow-sm
+                  hover:bg-[#5F9E6B]
+                  transition-colors
+                "
               >
                 Ingresar
               </button>
@@ -114,7 +156,7 @@ export default function Login() {
 
             {/* MENSAJE */}
             {mensaje && (
-              <p className="mt-3 text-center text-xs font-serif text-[#F5F3EC]">
+              <p className="mt-3 text-center text-xs font-serif text-[#B45F5F]">
                 {mensaje}
               </p>
             )}
@@ -122,7 +164,20 @@ export default function Login() {
             {/* BOTON REGISTRARSE */}
             <a
               href="/registro"
-              className="mt-3 w-full text-center py-1.5 rounded-lg bg-[#30262D] text-[#F5F3EC] font-serif text-sm hover:bg-[#463842] transition-colors"
+              className="
+                mt-3
+                w-full
+                text-center
+                py-1.5
+                rounded-lg
+                bg-[#B9E6F2]
+                text-[#31583D]
+                font-serif
+                text-sm
+                font-semibold
+                hover:bg-[#A5DCEB]
+                transition-colors
+              "
             >
               Registrarse
             </a>
@@ -141,19 +196,20 @@ export default function Login() {
           />
 
           {/* CAPA SOBRE LA IMAGEN */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+          <div className="absolute inset-0 flex items-center justify-center bg-[#39734A]/35">
 
             <div className="text-center px-8">
 
+              {/* ICONO */}
               <div className="text-6xl mb-5">
                 ♻️
               </div>
 
-              <h2 className="text-3xl font-serif text-white drop-shadow-lg">
+              <h2 className="text-3xl font-serif font-bold text-white drop-shadow-lg">
                 NUEVA VIDA
               </h2>
 
-              <p className="mt-3 text-lg font-serif text-white drop-shadow-lg">
+              <p className="mt-3 text-lg font-serif text-[#FFF1B8] drop-shadow-lg">
                 Recicla hoy,
                 <br />
                 transforma mañana.
