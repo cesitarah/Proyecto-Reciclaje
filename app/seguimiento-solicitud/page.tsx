@@ -60,7 +60,7 @@ function obtenerColorEstado(estado: string) {
     case "Entrega confirmada":
       return "bg-[#6FAF7B] text-white";
     case "Rechazada":
-      return "bg-[#B94A48] text-white";
+      return "bg-[#B8D4D8] text-[#26382C]";
     default:
       return "bg-[#B8D4D8] text-[#26382C]";
   }
@@ -192,7 +192,7 @@ export default function SeguimientoSolicitud() {
                   </p>
 
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-                    <span className="text-lg font-bold text-[#26382C]">
+                    <span className="text-lg font-bold text-[#39734A]">
                       Solicitud #{String(solicitud.id_solicitud).padStart(3, "0")}
                     </span>
 
@@ -342,7 +342,7 @@ export default function SeguimientoSolicitud() {
                 </div>
 
                 {solicitud.oferta.vendedor.telefono && (
-                  <div className="rounded-xl border border-[#A8D5BA] bg-[#B94A48] p-5 text-center">
+                  <div className="rounded-xl border border-[#A8D5BA] bg-[#39734A] p-5 text-center">
                     <p className="text-sm font-medium text-white">
                       Para mayor información, comunicarse con
                     </p>
@@ -353,7 +353,7 @@ export default function SeguimientoSolicitud() {
                 )}
               </>
             ) : (
-              <p className="text-center text-sm font-semibold text-[#B94A48]">
+              <p className="text-center text-sm font-semibold text-[#39734A]">
                 {mensaje || "No se encontró la solicitud."}
               </p>
             )}

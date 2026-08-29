@@ -98,6 +98,35 @@ export default async function Home() {
 
         </section>
 
+        {/* ================= ACCESO RÁPIDO COMPRADOR ================= */}
+        {rol === "Comprador" && (
+          <section className="mt-6 flex justify-center">
+            <Link
+              href="/comprador-mis-pedidos"
+              className="
+                inline-flex
+                items-center
+                gap-2
+                rounded-full
+                bg-[#6FAF7B]
+                px-8
+                py-3
+                text-sm
+                font-semibold
+                text-white
+                shadow-sm
+                transition
+                hover:bg-[#5F9E6B]
+                hover:scale-105
+                active:scale-95
+              "
+            >
+              <i className="fa-solid fa-box-open text-sm" />
+              Mis pedidos
+            </Link>
+          </section>
+        )}
+
         {/* ================= MATERIALES ================= */}
         <section className="mt-6">
 
