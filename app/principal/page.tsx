@@ -159,7 +159,7 @@ export default async function Home() {
               }
 
               if (rol === "Administrador") {
-                ruta = "/admin";
+                ruta = "/administrador";
               }
 
               return (
