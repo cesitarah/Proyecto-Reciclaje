@@ -144,10 +144,14 @@ export default function Administrador() {
     }
   };
 
-  const eliminarMaterial = async (material: Material) => {
+  const cambiarEstadoMaterial = async (material: Material) => {
+    const esActivo = material.estado === "activo";
+
     if (
       !confirm(
-        `¿Desactivar el precio oficial de "${material.nombre}"? Ya no aparecerá disponible para nuevas ofertas.`
+        esActivo
+          ? `¿Desactivar el precio oficial de "${material.nombre}"? Ya no aparecerá disponible para nuevas ofertas.`
+          : `¿Reactivar el precio oficial de "${material.nombre}"? Volverá a estar disponible para nuevas ofertas.`
       )
     ) {
       return;
@@ -162,7 +166,7 @@ export default function Administrador() {
       const data = await response.json();
 
       if (!response.ok) {
-        setMensaje(data.error || "No se pudo eliminar el material.");
+        setMensaje(data.error || "No se pudo cambiar el estado del material.");
         return;
       }
 
@@ -171,7 +175,11 @@ export default function Administrador() {
           m.id_material === material.id_material ? data : m
         )
       );
-      setMensaje("Material desactivado correctamente.");
+      setMensaje(
+        data.estado === "activo"
+          ? "Material reactivado correctamente."
+          : "Material desactivado correctamente."
+      );
     } catch {
       setMensaje("Error de conexión.");
     }
@@ -409,12 +417,25 @@ export default function Administrador() {
                                 </button>
                                 <button
                                   type="button"
-                                  title="Eliminar precio"
-                                  onClick={() => eliminarMaterial(material)}
-                                  disabled={material.estado === "inactivo"}
-                                  className="text-[#D96C6C] transition-all duration-300 hover:scale-125 hover:text-[#C94F4F] disabled:cursor-not-allowed disabled:opacity-40"
+                                  title={
+                                    material.estado === "activo"
+                                      ? "Desactivar precio"
+                                      : "Reactivar precio"
+                                  }
+                                  onClick={() => cambiarEstadoMaterial(material)}
+                                  className={
+                                    material.estado === "activo"
+                                      ? "text-[#D96C6C] transition-all duration-300 hover:scale-125 hover:text-[#C94F4F]"
+                                      : "text-[#39734A] transition-all duration-300 hover:scale-125 hover:text-[#6FAF7B]"
+                                  }
                                 >
-                                  <i className="fa-solid fa-trash" />
+                                  <i
+                                    className={
+                                      material.estado === "activo"
+                                        ? "fa-solid fa-trash"
+                                        : "fa-solid fa-rotate-left"
+                                    }
+                                  />
                                 </button>
                               </>
                             )}

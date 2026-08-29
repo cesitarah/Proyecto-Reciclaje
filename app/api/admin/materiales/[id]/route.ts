@@ -84,9 +84,23 @@ export async function DELETE(
       );
     }
 
+    const materialActual = await prisma.material.findUnique({
+      where: { id_material: idMaterial },
+    });
+
+    if (!materialActual) {
+      return NextResponse.json(
+        { error: "El material no existe." },
+        { status: 404 }
+      );
+    }
+
+    const nuevoEstado =
+      materialActual.estado === "activo" ? "inactivo" : "activo";
+
     const material = await prisma.material.update({
       where: { id_material: idMaterial },
-      data: { estado: "inactivo" },
+      data: { estado: nuevoEstado },
     });
 
     return NextResponse.json({
@@ -98,7 +112,7 @@ export async function DELETE(
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "No se pudo eliminar el material." },
+      { error: "No se pudo cambiar el estado del material." },
       { status: 500 }
     );
   }
