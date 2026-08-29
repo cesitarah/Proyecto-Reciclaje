@@ -214,26 +214,21 @@ export async function POST(request: Request) {
       );
     }
 
-    const solicitudExistente = await prisma.solicitud.findFirst({
+    const solicitudPendiente = await prisma.solicitud.findFirst({
       where: {
         id_oferta: oferta.id_oferta,
-        estado: { not: "Rechazada" },
+        estado: { in: ["Pendiente", "En gestión"] },
       },
     });
 
-    if (solicitudExistente) {
+    if (solicitudPendiente) {
       return NextResponse.json(
-        { error: "Esta oferta ya tiene una solicitud activa." },
+        { error: "Esta oferta ya tiene una solicitud en proceso." },
         { status: 400 }
       );
     }
 
     const solicitud = await prisma.$transaction(async (tx) => {
-      await tx.oferta.update({
-        where: { id_oferta: oferta.id_oferta },
-        data: { estado: "Solicitada" },
-      });
-
       return tx.solicitud.create({
         data: {
           id_oferta: oferta.id_oferta,

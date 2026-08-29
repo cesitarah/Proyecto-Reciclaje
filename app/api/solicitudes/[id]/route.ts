@@ -220,6 +220,7 @@ export async function PATCH(
     }
 
     const nuevoEstado = estado || solicitud.estado;
+    const estadoAnterior = solicitud.estado;
 
     const solicitudActualizada = await prisma.$transaction(async (tx) => {
       if (indicaciones && indicaciones.trim()) {
@@ -233,17 +234,33 @@ export async function PATCH(
         });
       }
 
-      if (nuevoEstado === "Entrega confirmada") {
+      if (
+        nuevoEstado === "Entrega confirmada" &&
+        estadoAnterior !== "Entrega confirmada"
+      ) {
+        const cantidadActual = Number(solicitud.oferta.cantidad_disponible);
+        const cantidadVendida = Number(solicitud.cantidad_solicitada);
+        const restante = cantidadActual - cantidadVendida;
+
         await tx.oferta.update({
           where: { id_oferta: solicitud.id_oferta },
-          data: { estado: "Completada" },
+          data: {
+            cantidad_disponible: Math.max(restante, 0),
+            estado: restante > 0 ? "Disponible" : "Completada",
+          },
         });
       }
 
-      if (nuevoEstado === "Rechazada") {
+      if (nuevoEstado === "Rechazada" && estadoAnterior === "Entrega confirmada") {
+        const cantidadActual = Number(solicitud.oferta.cantidad_disponible);
+        const cantidadVendida = Number(solicitud.cantidad_solicitada);
+
         await tx.oferta.update({
           where: { id_oferta: solicitud.id_oferta },
-          data: { estado: "Disponible" },
+          data: {
+            cantidad_disponible: cantidadActual + cantidadVendida,
+            estado: "Disponible",
+          },
         });
       }
 

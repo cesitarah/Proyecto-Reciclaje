@@ -586,7 +586,12 @@ export default function VendedorPublicarOfertas() {
 
                       <td className="px-4 py-4">
 
-                        {oferta.estado === "Solicitada" ? (
+                        {solicitudes.some(
+                          (s) =>
+                            s.id_oferta === oferta.id_oferta &&
+                            s.estado !== "Entrega confirmada" &&
+                            s.estado !== "Rechazada"
+                        ) ? (
 
                           <Link
                             href={`/gestion-solicitud?id_solicitud=${
