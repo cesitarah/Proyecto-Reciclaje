@@ -46,39 +46,194 @@ const solicitudes = [
 
 export default function Administrador() {
   return (
-    <main className="min-h-screen bg-[#F3F1E8] px-4 py-6 md:px-8">
+    <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8">
+
       <div className="mx-auto max-w-6xl">
 
+        {/* ===================================================== */}
         {/* HEADER */}
+        {/* ===================================================== */}
+
         <header className="rounded-t-2xl bg-[#3D4641] px-6 py-4 shadow-lg">
+
           <div className="flex items-center justify-between">
 
+            {/* TITULO */}
+
             <div>
-              <h1 className="text-xl font-semibold tracking-wide text-[#F5F3EC]">
+              <h1 className="text-xl font-bold tracking-wider text-[#F5F3EC]">
                 ADMINISTRADOR
               </h1>
 
-              <p className="mt-1 text-xs text-[#DDE3D9]">
+              <p className="mt-1 text-xs text-[#C3D0C6]">
                 Panel de administración
               </p>
             </div>
 
-            <Link
-              href="/principal"
-              title="Volver a principal"
-              className="flex h-9 w-9 items-center justify-center rounded-full text-[#F5F3EC] transition hover:bg-[#506653]"
-            >
-              <i className="fa-solid fa-house text-sm"></i>
-            </Link>
+
+            {/* ================================================= */}
+            {/* ICONOS DERECHA */}
+            {/* ================================================= */}
+
+            <div className="flex items-center gap-3">
+
+              {/* ================================================= */}
+              {/* CASITA AMARILLA */}
+              {/* ================================================= */}
+
+              <Link
+                href="/principal"
+                title="Volver a principal"
+                className="
+                  group
+                  relative
+                  flex
+                  h-9
+                  w-9
+                  items-center
+                  justify-center
+                  overflow-hidden
+                  rounded-full
+                  bg-[#F7DD7A]
+                  text-[#3D4641]
+                  shadow-sm
+                  transition-all
+                  duration-300
+                  hover:-translate-y-0.5
+                  hover:bg-[#F4D35E]
+                  hover:shadow-[0_0_14px_rgba(244,211,94,0.8)]
+                  active:scale-95
+                "
+              >
+
+                {/* DESTELLO */}
+
+                <span
+                  className="
+                    absolute
+                    inset-0
+                    -translate-x-full
+                    bg-gradient-to-r
+                    from-transparent
+                    via-white/70
+                    to-transparent
+                    transition-transform
+                    duration-700
+                    group-hover:translate-x-full
+                  "
+                ></span>
+
+                {/* ICONO */}
+
+                <i
+                  className="
+                    fa-solid
+                    fa-house
+                    relative
+                    z-10
+                    text-sm
+                    transition-all
+                    duration-300
+                    group-hover:scale-110
+                    group-hover:rotate-3
+                  "
+                ></i>
+
+              </Link>
+
+
+              {/* ================================================= */}
+              {/* CERRAR SESIÓN */}
+              {/* ================================================= */}
+
+              <button
+                type="button"
+                title="Cerrar sesión"
+                className="
+                  group
+                  relative
+                  flex
+                  h-9
+                  w-9
+                  items-center
+                  justify-center
+                  overflow-hidden
+                  rounded-full
+                  bg-[#D96C6C]
+                  text-[#1F1F1F]
+                  shadow-sm
+                  transition-all
+                  duration-300
+                  hover:-translate-y-0.5
+                  hover:bg-[#E47D7D]
+                  hover:shadow-[0_0_14px_rgba(217,108,108,0.7)]
+                  active:scale-95
+                "
+              >
+
+                {/* DESTELLO */}
+
+                <span
+                  className="
+                    absolute
+                    inset-0
+                    -translate-x-full
+                    bg-gradient-to-r
+                    from-transparent
+                    via-white/70
+                    to-transparent
+                    transition-transform
+                    duration-700
+                    group-hover:translate-x-full
+                  "
+                ></span>
+
+                {/* ICONO */}
+
+                <i
+                  className="
+                    fa-solid
+                    fa-right-from-bracket
+                    relative
+                    z-10
+                    text-sm
+                    transition-all
+                    duration-300
+                    group-hover:scale-110
+                    group-hover:-rotate-3
+                  "
+                ></i>
+
+              </button>
+
+            </div>
 
           </div>
+
         </header>
 
-        {/* CONTENIDO */}
-        <section className="rounded-b-2xl bg-[#A8B39F] px-5 py-6 shadow-lg md:px-8">
 
-          {/* TÍTULO */}
-          <div className="mb-6">
+        {/* ===================================================== */}
+        {/* CONTENIDO */}
+        {/* ===================================================== */}
+
+        <section
+          className="
+            rounded-b-2xl
+            bg-[#E8F5EC]
+            px-5
+            py-7
+            shadow-lg
+            md:px-8
+          "
+        >
+
+          {/* ================================================= */}
+          {/* TITULO */}
+          {/* ================================================= */}
+
+          <div className="mb-7">
+
             <h2 className="text-3xl font-serif font-semibold text-[#26382C]">
               Administración
             </h2>
@@ -86,17 +241,41 @@ export default function Administrador() {
             <p className="mt-1 text-sm text-[#40534A]">
               Control general del sistema Nueva Vida
             </p>
+
           </div>
 
+
+          {/* ===================================================== */}
           {/* TARJETAS */}
+          {/* ===================================================== */}
+
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
 
+
+            {/* ================================================= */}
             {/* USUARIOS */}
-            <div className="rounded-xl border border-[#6D756D] bg-[#DDE3D9] p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+            {/* ================================================= */}
+
+            <div
+              className="
+                rounded-xl
+                border
+                border-[#A8D5BA]
+                bg-[#DDEFE1]
+                p-4
+                shadow-sm
+                transition-all
+                duration-300
+                hover:-translate-y-1
+                hover:bg-[#D2EBDD]
+                hover:shadow-lg
+              "
+            >
 
               <div className="flex items-center justify-between">
 
                 <div>
+
                   <p className="text-xs font-semibold text-[#40534A]">
                     Usuarios
                   </p>
@@ -104,23 +283,59 @@ export default function Administrador() {
                   <p className="mt-2 text-2xl font-bold text-[#26382C]">
                     18
                   </p>
+
                 </div>
 
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#A8B39F] text-[#26382C]">
+
+                {/* ICONO NEGRO */}
+
+                <div
+                  className="
+                    flex
+                    h-10
+                    w-10
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-[#B8D4D8]
+                    text-[#1F1F1F]
+                  "
+                >
                   <i className="fa-solid fa-users"></i>
                 </div>
 
               </div>
 
+
               <div className="mt-3 h-1 w-12 rounded-full bg-[#6F806C]" />
+
             </div>
 
+
+            {/* ================================================= */}
             {/* SOLICITUDES */}
-            <div className="rounded-xl border border-[#6D756D] bg-[#DDE3D9] p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+            {/* ================================================= */}
+
+            <div
+              className="
+                rounded-xl
+                border
+                border-[#A8D5BA]
+                bg-[#DDEFE1]
+                p-4
+                shadow-sm
+                transition-all
+                duration-300
+                hover:-translate-y-1
+                hover:bg-[#D2EBDD]
+                hover:shadow-lg
+              "
+            >
 
               <div className="flex items-center justify-between">
 
                 <div>
+
                   <p className="text-xs font-semibold text-[#40534A]">
                     Solicitudes activas
                   </p>
@@ -128,23 +343,59 @@ export default function Administrador() {
                   <p className="mt-2 text-2xl font-bold text-[#26382C]">
                     12
                   </p>
+
                 </div>
 
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#A8B39F] text-[#26382C]">
+
+                {/* ICONO NEGRO */}
+
+                <div
+                  className="
+                    flex
+                    h-10
+                    w-10
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-[#B8D4D8]
+                    text-[#1F1F1F]
+                  "
+                >
                   <i className="fa-solid fa-clipboard-list"></i>
                 </div>
 
               </div>
 
+
               <div className="mt-3 h-1 w-12 rounded-full bg-[#6F806C]" />
+
             </div>
 
+
+            {/* ================================================= */}
             {/* VENTAS */}
-            <div className="rounded-xl border border-[#6D756D] bg-[#DDE3D9] p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+            {/* ================================================= */}
+
+            <div
+              className="
+                rounded-xl
+                border
+                border-[#A8D5BA]
+                bg-[#DDEFE1]
+                p-4
+                shadow-sm
+                transition-all
+                duration-300
+                hover:-translate-y-1
+                hover:bg-[#D2EBDD]
+                hover:shadow-lg
+              "
+            >
 
               <div className="flex items-center justify-between">
 
                 <div>
+
                   <p className="text-xs font-semibold text-[#40534A]">
                     Ventas completadas
                   </p>
@@ -152,23 +403,59 @@ export default function Administrador() {
                   <p className="mt-2 text-2xl font-bold text-[#26382C]">
                     8
                   </p>
+
                 </div>
 
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#A8B39F] text-[#26382C]">
+
+                {/* ICONO NEGRO */}
+
+                <div
+                  className="
+                    flex
+                    h-10
+                    w-10
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-[#B8D4D8]
+                    text-[#1F1F1F]
+                  "
+                >
                   <i className="fa-solid fa-cart-shopping"></i>
                 </div>
 
               </div>
 
+
               <div className="mt-3 h-1 w-12 rounded-full bg-[#6F806C]" />
+
             </div>
 
+
+            {/* ================================================= */}
             {/* MATERIAL RECICLADO */}
-            <div className="rounded-xl border border-[#6D756D] bg-[#DDE3D9] p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+            {/* ================================================= */}
+
+            <div
+              className="
+                rounded-xl
+                border
+                border-[#A8D5BA]
+                bg-[#DDEFE1]
+                p-4
+                shadow-sm
+                transition-all
+                duration-300
+                hover:-translate-y-1
+                hover:bg-[#D2EBDD]
+                hover:shadow-lg
+              "
+            >
 
               <div className="flex items-center justify-between">
 
                 <div>
+
                   <p className="text-xs font-semibold text-[#40534A]">
                     Material reciclado
                   </p>
@@ -179,25 +466,73 @@ export default function Administrador() {
                       kg
                     </span>
                   </p>
+
                 </div>
 
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#A8B39F] text-[#26382C]">
+
+                {/* ICONO NEGRO */}
+
+                <div
+                  className="
+                    flex
+                    h-10
+                    w-10
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-[#B8D4D8]
+                    text-[#1F1F1F]
+                  "
+                >
                   <i className="fa-solid fa-recycle"></i>
                 </div>
 
               </div>
 
+
               <div className="mt-3 h-1 w-12 rounded-full bg-[#6F806C]" />
+
             </div>
 
           </div>
 
+
+          {/* ===================================================== */}
           {/* PRECIOS OFICIALES */}
-          <section className="mt-6 rounded-xl border border-[#6D756D] bg-[#DDE3D9] p-5 shadow-sm">
+          {/* ===================================================== */}
 
-            <div className="mb-4 flex items-center gap-2">
+          <section
+            className="
+              mt-6
+              rounded-xl
+              border
+              border-[#A8D5BA]
+              bg-[#DDEFE1]
+              p-5
+              shadow-sm
+              md:p-6
+            "
+          >
 
-              <i className="fa-solid fa-tags text-[#40534A]"></i>
+            <div className="mb-4 flex items-center gap-3">
+
+              {/* ICONO NEGRO */}
+
+              <div
+                className="
+                  flex
+                  h-9
+                  w-9
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-[#B8D4D8]
+                  text-[#1F1F1F]
+                "
+              >
+                <i className="fa-solid fa-tags"></i>
+              </div>
+
 
               <h3 className="font-serif text-lg font-semibold text-[#26382C]">
                 Precios oficiales
@@ -205,12 +540,23 @@ export default function Administrador() {
 
             </div>
 
+
             <div className="overflow-x-auto">
 
               <table className="w-full text-left text-sm">
 
                 <thead>
-                  <tr className="border-b border-[#6D756D] text-xs uppercase tracking-wide text-[#40534A]">
+
+                  <tr
+                    className="
+                      border-b
+                      border-[#A8D5BA]
+                      text-xs
+                      uppercase
+                      tracking-wide
+                      text-[#40534A]
+                    "
+                  >
 
                     <th className="px-3 py-3">
                       Material
@@ -229,44 +575,75 @@ export default function Administrador() {
                     </th>
 
                   </tr>
+
                 </thead>
+
 
                 <tbody>
 
                   {precios.map((precio) => (
+
                     <tr
                       key={precio.material}
-                      className="border-b border-[#6D756D] last:border-0"
+                      className="
+                        border-b
+                        border-[#C7DED0]
+                        last:border-0
+                        transition
+                        hover:bg-[#CFE5D4]
+                      "
                     >
 
-                      <td className="px-3 py-3 font-medium text-[#26382C]">
+                      <td className="px-3 py-3 font-semibold text-[#26382C]">
                         {precio.material}
                       </td>
 
-                      <td className="px-3 py-3 font-semibold text-[#40534A]">
+
+                      {/* PRECIO VERDE */}
+
+                      <td className="px-3 py-3 font-bold text-[#39734A]">
                         {precio.precio}
                       </td>
+
 
                       <td className="px-3 py-3 text-[#40534A]">
                         {precio.fecha}
                       </td>
 
+
                       <td className="px-3 py-3">
 
-                        <div className="flex justify-center gap-4">
+                        <div className="flex justify-center gap-5">
+
+                          {/* EDITAR */}
 
                           <button
                             type="button"
                             title="Editar precio"
-                            className="text-[#40534A] transition hover:scale-110 hover:text-[#26382C]"
+                            className="
+                              text-[#1F1F1F]
+                              transition-all
+                              duration-300
+                              hover:scale-125
+                              hover:text-[#39734A]
+                            "
                           >
                             <i className="fa-solid fa-pen-to-square"></i>
                           </button>
 
+
+                          {/* ELIMINAR */}
+
                           <button
                             type="button"
                             title="Eliminar precio"
-                            className="text-[#40534A] transition hover:scale-110 hover:text-red-700"
+                            className="
+                              text-[#D96C6C]
+                              transition-all
+                              duration-300
+                              hover:scale-125
+                              hover:text-[#C94F4F]
+                            "
                           >
                             <i className="fa-solid fa-trash"></i>
                           </button>
@@ -276,6 +653,7 @@ export default function Administrador() {
                       </td>
 
                     </tr>
+
                   ))}
 
                 </tbody>
@@ -286,12 +664,43 @@ export default function Administrador() {
 
           </section>
 
+
+          {/* ===================================================== */}
           {/* SOLICITUDES */}
-          <section className="mt-5 rounded-xl border border-[#6D756D] bg-[#DDE3D9] p-5 shadow-sm">
+          {/* ===================================================== */}
 
-            <div className="mb-4 flex items-center gap-2">
+          <section
+            className="
+              mt-5
+              rounded-xl
+              border
+              border-[#A8D5BA]
+              bg-[#DDEFE1]
+              p-5
+              shadow-sm
+              md:p-6
+            "
+          >
 
-              <i className="fa-solid fa-list-check text-[#40534A]"></i>
+            <div className="mb-4 flex items-center gap-3">
+
+              {/* ICONO NEGRO */}
+
+              <div
+                className="
+                  flex
+                  h-9
+                  w-9
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-[#B8D4D8]
+                  text-[#1F1F1F]
+                "
+              >
+                <i className="fa-solid fa-list-check"></i>
+              </div>
+
 
               <h3 className="font-serif text-lg font-semibold text-[#26382C]">
                 Gestión de solicitudes
@@ -299,13 +708,23 @@ export default function Administrador() {
 
             </div>
 
+
             <div className="overflow-x-auto">
 
               <table className="w-full min-w-[650px] text-left text-sm">
 
                 <thead>
 
-                  <tr className="border-b border-[#6D756D] text-xs uppercase tracking-wide text-[#40534A]">
+                  <tr
+                    className="
+                      border-b
+                      border-[#A8D5BA]
+                      text-xs
+                      uppercase
+                      tracking-wide
+                      text-[#40534A]
+                    "
+                  >
 
                     <th className="px-3 py-3">
                       ID
@@ -331,34 +750,56 @@ export default function Administrador() {
 
                 </thead>
 
+
                 <tbody>
 
                   {solicitudes.map((solicitud) => (
+
                     <tr
                       key={solicitud.id}
-                      className="border-b border-[#6D756D] last:border-0"
+                      className="
+                        border-b
+                        border-[#C7DED0]
+                        last:border-0
+                        transition
+                        hover:bg-[#CFE5D4]
+                      "
                     >
 
                       <td className="px-3 py-3 font-semibold text-[#26382C]">
                         {solicitud.id}
                       </td>
 
+
                       <td className="px-3 py-3 text-[#40534A]">
                         {solicitud.material}
                       </td>
+
 
                       <td className="px-3 py-3 text-[#40534A]">
                         {solicitud.cantidad}
                       </td>
 
+
                       <td className="px-3 py-3">
 
                         <span
-                          className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold text-white ${
-                            solicitud.estado === "Aceptada"
-                              ? "bg-[#4F9D50]"
-                              : "bg-[#6F806C]"
-                          }`}
+                          className={`
+                            inline-flex
+                            items-center
+                            gap-1.5
+                            rounded-full
+                            px-3
+                            py-1
+                            text-[11px]
+                            font-semibold
+                            text-white
+                            ${
+                              solicitud.estado === "Aceptada"
+                                ? "bg-[#6FAF7B]"
+                                : "bg-[#78958A]"
+                            }
+                          `}
                         >
 
                           <i
@@ -375,11 +816,13 @@ export default function Administrador() {
 
                       </td>
 
+
                       <td className="px-3 py-3 text-[#40534A]">
                         {solicitud.fecha}
                       </td>
 
                     </tr>
+
                   ))}
 
                 </tbody>
@@ -390,30 +833,10 @@ export default function Administrador() {
 
           </section>
 
-          {/* BOTONES INFERIORES */}
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-
-            <Link
-              href="/principal"
-              className="flex items-center gap-2 rounded-full bg-[#6F806C] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#81937D] active:scale-95"
-            >
-              <i className="fa-solid fa-house"></i>
-              Principal
-            </Link>
-
-            <button
-              type="button"
-              className="flex items-center gap-2 rounded-full border border-[#6D756D] bg-[#DDE3D9] px-6 py-2.5 text-sm font-semibold text-[#40534A] transition hover:bg-[#A8B39F] active:scale-95"
-            >
-              <i className="fa-solid fa-right-from-bracket"></i>
-              Cerrar sesión
-            </button>
-
-          </div>
-
         </section>
 
       </div>
+
     </main>
   );
 }
