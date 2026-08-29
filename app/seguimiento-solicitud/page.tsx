@@ -1,29 +1,28 @@
-
 "use client";
 
 import Link from "next/link";
 
 export default function SeguimientoSolicitud() {
   return (
-    <main className="min-h-screen bg-[#F3F1E8] px-4 py-8 text-[#26382C] md:px-8">
+    <main className="min-h-screen bg-[#CFEFF5] px-4 py-8 text-[#26382C] md:px-8">
       <div className="mx-auto max-w-2xl">
 
         {/* BOTÓN VOLVER */}
         <div className="mb-6">
           <Link
             href="/comprador-buscar-ofertas"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#6F806C] transition hover:text-[#40534A]"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#6FAF7B] transition hover:text-[#39734A]"
           >
             ← Volver
           </Link>
         </div>
 
         {/* CONTENEDOR PRINCIPAL */}
-        <section className="overflow-hidden rounded-2xl border border-[#6D756D] bg-white shadow-lg">
+        <section className="overflow-hidden rounded-2xl border border-[#A8D5BA] bg-white shadow-lg">
 
           {/* ENCABEZADO */}
-          <div className="bg-[#3D4641] px-6 py-4">
-            <h1 className="text-xl font-bold tracking-wider text-[#F5F3EC]">
+          <div className="bg-[#39734A] px-6 py-4">
+            <h1 className="text-xl font-bold tracking-wider text-white">
               COMPRADOR
             </h1>
           </div>
@@ -42,7 +41,7 @@ export default function SeguimientoSolicitud() {
             </div>
 
             {/* ESTADO ACTUAL */}
-            <div className="rounded-xl border border-[#D0D4CF] bg-[#DDE3D9] p-5">
+            <div className="rounded-xl border border-[#A8D5BA] bg-[#E8F5EC] p-5">
 
               <p className="text-xs font-semibold uppercase tracking-wider text-[#40534A]">
                 Estado actual
@@ -53,7 +52,7 @@ export default function SeguimientoSolicitud() {
                   Solicitud en proceso
                 </span>
 
-                <span className="rounded-full bg-[#B8D4D8] px-4 py-1.5 text-xs font-bold text-[#26382C]">
+                <span className="rounded-full bg-[#F7DD7A] px-4 py-1.5 text-xs font-bold text-[#6D5A12]">
                   En gestión
                 </span>
               </div>
@@ -71,17 +70,17 @@ export default function SeguimientoSolicitud() {
                 Seguimiento de la solicitud
               </label>
 
-              <div className="rounded-xl border border-[#D0D4CF] bg-[#F3F1E8] p-6">
+              <div className="rounded-xl border border-[#A8D5BA] bg-[#F8FCF9] p-6">
 
                 {/* ETAPA 1 */}
                 <div className="relative flex gap-4">
 
                   <div className="flex flex-col items-center">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#6F806C] text-sm font-bold text-white">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#6FAF7B] text-sm font-bold text-white">
                       ✓
                     </div>
 
-                    <div className="h-12 w-0.5 bg-[#6F806C]"></div>
+                    <div className="h-12 w-0.5 bg-[#6FAF7B]"></div>
                   </div>
 
                   <div className="pb-7">
@@ -104,11 +103,11 @@ export default function SeguimientoSolicitud() {
                 <div className="relative flex gap-4">
 
                   <div className="flex flex-col items-center">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#6F806C] text-sm font-bold text-white">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#6FAF7B] text-sm font-bold text-white">
                       ✓
                     </div>
 
-                    <div className="h-12 w-0.5 bg-[#6F806C]"></div>
+                    <div className="h-12 w-0.5 bg-[#6FAF7B]"></div>
                   </div>
 
                   <div className="pb-7">
@@ -131,11 +130,11 @@ export default function SeguimientoSolicitud() {
                 <div className="relative flex gap-4">
 
                   <div className="flex flex-col items-center">
-                    <div className="flex h-9 w-9 animate-pulse items-center justify-center rounded-full bg-[#B8D4D8] text-sm font-bold text-[#26382C] ring-4 ring-[#B8D4D8]/40">
+                    <div className="flex h-9 w-9 animate-pulse items-center justify-center rounded-full bg-[#F7DD7A] text-sm font-bold text-[#6D5A12] ring-4 ring-[#F7DD7A]/40">
                       •
                     </div>
 
-                    <div className="h-12 w-0.5 bg-[#D0D4CF]"></div>
+                    <div className="h-12 w-0.5 bg-[#A8D5BA]"></div>
                   </div>
 
                   <div className="pb-7">
@@ -147,7 +146,7 @@ export default function SeguimientoSolicitud() {
                       El vendedor está preparando el material para la entrega.
                     </p>
 
-                    <span className="mt-2 block text-xs font-semibold text-[#6F806C]">
+                    <span className="mt-2 block text-xs font-semibold text-[#6FAF7B]">
                       En proceso
                     </span>
                   </div>
@@ -185,7 +184,7 @@ export default function SeguimientoSolicitud() {
                 Detalles de la entrega
               </label>
 
-              <div className="rounded-xl border border-[#D0D4CF] bg-[#F3F1E8] p-5">
+              <div className="rounded-xl border border-[#A8D5BA] bg-[#E8F5EC] p-5">
 
                 <p className="text-sm leading-6 text-[#40534A]">
                   Pasar el día lunes a las 11:00 de la mañana para recoger el material.
@@ -206,7 +205,7 @@ export default function SeguimientoSolicitud() {
                 Detalles de la venta
               </label>
 
-              <div className="space-y-3 rounded-xl border border-[#D0D4CF] bg-[#F3F1E8] p-5">
+              <div className="space-y-3 rounded-xl border border-[#A8D5BA] bg-[#E8F5EC] p-5">
 
                 <div className="flex justify-between border-b border-[#D0D4CF] pb-3">
                   <span className="font-medium text-[#6D756D]">
@@ -243,7 +242,7 @@ export default function SeguimientoSolicitud() {
                     Precio:
                   </span>
 
-                  <span className="font-bold text-[#6F806C]">
+                  <span className="font-bold text-[#6FAF7B]">
                     $ 55.00
                   </span>
                 </div>
@@ -253,13 +252,13 @@ export default function SeguimientoSolicitud() {
             </div>
 
             {/* INFORMACIÓN DEL VENDEDOR */}
-            <div className="rounded-xl border border-[#D0D4CF] bg-[#30262D] p-5 text-center">
+            <div className="rounded-xl border border-[#A8D5BA] bg-[#B94A48] p-5 text-center">
 
-              <p className="text-sm font-medium text-[#F5F3EC]">
+              <p className="text-sm font-medium text-white">
                 Para mayor información, comunicarse con
               </p>
 
-              <p className="mt-2 text-lg font-bold text-[#DDE3D9]">
+              <p className="mt-2 text-lg font-bold text-[#F7DD7A]">
                 70000000
               </p>
 
