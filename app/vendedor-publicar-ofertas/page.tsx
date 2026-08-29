@@ -47,7 +47,6 @@ export default function VendedorPublicarOfertas() {
       }
 
       setPrecio(`Bs ${data.precio_por_kg}`);
-
     } catch (error) {
       console.error(error);
       setPrecio("No disponible");
@@ -59,11 +58,6 @@ export default function VendedorPublicarOfertas() {
   ========================================== */
   const cargarOfertas = async () => {
     try {
-      /*
-        No enviamos material aquí.
-        La API reconoce que somos vendedores
-        y devuelve únicamente nuestras ofertas.
-      */
       const response = await fetch("/api/ofertas");
 
       const data = await response.json();
@@ -76,7 +70,6 @@ export default function VendedorPublicarOfertas() {
       }
 
       setOfertas(data);
-
     } catch (error) {
       console.error(error);
       setMensaje("Error de conexión.");
@@ -129,9 +122,7 @@ export default function VendedorPublicarOfertas() {
       setCantidad("");
       setUbicacion("");
 
-      /* Actualizar la tabla inmediatamente */
       cargarOfertas();
-
     } catch (error) {
       console.error(error);
       setMensaje("Error de conexión.");
@@ -139,22 +130,93 @@ export default function VendedorPublicarOfertas() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F3F1E8] px-4 py-8 text-[#26382C] md:px-8">
+    <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8">
 
       <div className="mx-auto max-w-5xl">
 
+        {/* ===================================================== */}
         {/* ENCABEZADO */}
-        <section className="overflow-hidden rounded-2xl border border-[#6D756D] bg-white shadow-lg">
+        {/* ===================================================== */}
 
-          <div className="bg-[#3D4641] px-6 py-3">
+        <section className="overflow-hidden rounded-xl border border-[#A8D5BA] bg-[#E8F5EC] shadow-md">
 
-            <h1 className="text-xl font-bold tracking-wider text-[#F5F3EC]">
+          {/* TITULO VENDEDOR + CASITA */}
+
+          <div className="flex items-center justify-between bg-[#C3F4D4] px-5 py-3">
+
+            <h1 className="text-base font-bold tracking-wide text-[#1F1F1F]">
               VENDEDOR
             </h1>
 
+            {/* ================= CASITA ================= */}
+
+            <Link
+              href="/principal"
+              title="Volver a principal"
+              className="
+                group
+                relative
+                flex
+                h-8
+                w-8
+                items-center
+                justify-center
+                overflow-hidden
+                rounded-full
+                bg-[#F7DD7A]
+                text-[#6D5A12]
+                shadow-sm
+                transition-all
+                duration-300
+                hover:-translate-y-0.5
+                hover:bg-[#F4D35E]
+                hover:shadow-[0_0_12px_rgba(244,211,94,0.9)]
+                active:scale-95
+              "
+            >
+
+              {/* DESTELLO */}
+
+              <span
+                className="
+                  absolute
+                  inset-0
+                  -translate-x-full
+                  bg-gradient-to-r
+                  from-transparent
+                  via-white/70
+                  to-transparent
+                  transition-transform
+                  duration-700
+                  group-hover:translate-x-full
+                "
+              ></span>
+
+              {/* ICONO */}
+
+              <i
+                className="
+                  fa-solid
+                  fa-house
+                  relative
+                  z-10
+                  text-xs
+                  transition-all
+                  duration-300
+                  group-hover:scale-110
+                  group-hover:rotate-3
+                "
+              ></i>
+
+            </Link>
+
           </div>
 
+
+          {/* ================================================= */}
           {/* BANNER */}
+          {/* ================================================= */}
+
           <div className="relative flex h-40 w-full items-center justify-center overflow-hidden px-6 text-center text-white shadow-inner">
 
             <Image
@@ -164,15 +226,15 @@ export default function VendedorPublicarOfertas() {
               className="object-cover"
             />
 
-            <div className="absolute inset-0 bg-[#40534A]/65"></div>
+            <div className="absolute inset-0 bg-[#39734A]/35"></div>
 
             <div className="relative z-10 space-y-1">
 
-              <span className="block text-2xl font-black tracking-widest text-[#F5F3EC] drop-shadow">
-                RECYCLE
+              <span className="block text-2xl font-black tracking-widest text-white drop-shadow">
+                NUEVA VIDA
               </span>
 
-              <p className="text-xs font-medium text-[#DDE3D9]">
+              <p className="text-xs font-medium text-white">
                 Plataforma de gestión de residuos y materiales
               </p>
 
@@ -182,19 +244,25 @@ export default function VendedorPublicarOfertas() {
 
         </section>
 
-        {/* PUBLICAR NUEVO LOTE */}
-        <section className="mt-8 rounded-2xl border border-[#6D756D] bg-[#A8B39F] p-6 shadow-lg md:p-8">
 
-          <h2 className="mb-6 text-xl font-bold text-[#26382C]">
+        {/* ===================================================== */}
+        {/* PUBLICAR NUEVO LOTE */}
+        {/* ===================================================== */}
+
+        <section className="mt-6 rounded-xl border border-[#A8D5BA] bg-[#E8F5EC] p-6 shadow-md md:p-8">
+
+          <h2 className="mb-6 text-xl font-bold text-[#1F1F1F]">
             PUBLICAR NUEVO LOTE
           </h2>
 
           <div className="space-y-6">
 
             {/* FILA 1 */}
+
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 
               {/* MATERIAL */}
+
               <div>
 
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
@@ -205,7 +273,20 @@ export default function VendedorPublicarOfertas() {
                   type="text"
                   value={materialSeleccionado}
                   readOnly
-                  className="w-full cursor-not-allowed rounded-xl border border-[#6D756D] bg-[#DDE3D9] px-4 py-2.5 text-sm font-medium text-[#40534A] outline-none"
+                  className="
+                    w-full
+                    cursor-not-allowed
+                    rounded-xl
+                    border
+                    border-[#A8D5BA]
+                    bg-[#CFEFF5]
+                    px-4
+                    py-2.5
+                    text-sm
+                    font-medium
+                    text-[#1F1F1F]
+                    outline-none
+                  "
                 />
 
                 <p className="mt-1.5 text-xs text-[#40534A]">
@@ -214,7 +295,9 @@ export default function VendedorPublicarOfertas() {
 
               </div>
 
+
               {/* CANTIDAD */}
+
               <div>
 
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
@@ -227,12 +310,30 @@ export default function VendedorPublicarOfertas() {
                   value={cantidad}
                   onChange={(e) => setCantidad(e.target.value)}
                   placeholder="Ej. 15"
-                  className="w-full rounded-xl border border-[#6D756D] bg-[#30262D] px-4 py-2.5 text-sm text-[#F5F3EC] outline-none transition placeholder-[#D6D0D3] focus:border-[#6F806C] focus:ring-2 focus:ring-[#6F806C]"
+                  className="
+                    w-full
+                    rounded-xl
+                    border
+                    border-[#A8D5BA]
+                    bg-white
+                    px-4
+                    py-2.5
+                    text-sm
+                    text-[#1F1F1F]
+                    outline-none
+                    transition
+                    placeholder-[#789083]
+                    focus:border-[#6FAF7B]
+                    focus:ring-2
+                    focus:ring-[#A8D5BA]
+                  "
                 />
 
               </div>
 
+
               {/* UBICACIÓN */}
+
               <div>
 
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
@@ -244,28 +345,60 @@ export default function VendedorPublicarOfertas() {
                   value={ubicacion}
                   onChange={(e) => setUbicacion(e.target.value)}
                   placeholder="Ej. Santa Cruz"
-                  className="w-full rounded-xl border border-[#6D756D] bg-[#30262D] px-4 py-2.5 text-sm text-[#F5F3EC] outline-none transition placeholder-[#D6D0D3] focus:border-[#6F806C] focus:ring-2 focus:ring-[#6F806C]"
+                  className="
+                    w-full
+                    rounded-xl
+                    border
+                    border-[#A8D5BA]
+                    bg-white
+                    px-4
+                    py-2.5
+                    text-sm
+                    text-[#1F1F1F]
+                    outline-none
+                    transition
+                    placeholder-[#789083]
+                    focus:border-[#6FAF7B]
+                    focus:ring-2
+                    focus:ring-[#A8D5BA]
+                  "
                 />
 
               </div>
 
             </div>
 
+
             {/* FILA 2 */}
+
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 
               {/* PRECIO */}
+
               <div>
 
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
-                  Precio establecido ($/kg)
+                  Precio establecido (Bs/kg)
                 </label>
 
                 <input
                   type="text"
                   value={precio}
                   readOnly
-                  className="w-full cursor-not-allowed rounded-xl border border-[#6D756D] bg-[#DDE3D9] px-4 py-2.5 text-sm font-medium text-[#40534A] outline-none"
+                  className="
+                    w-full
+                    cursor-not-allowed
+                    rounded-xl
+                    border
+                    border-[#A8D5BA]
+                    bg-[#CFEFF5]
+                    px-4
+                    py-2.5
+                    text-sm
+                    font-medium
+                    text-[#1F1F1F]
+                    outline-none
+                  "
                 />
 
                 <p className="mt-1.5 text-xs text-[#40534A]">
@@ -276,20 +409,36 @@ export default function VendedorPublicarOfertas() {
 
             </div>
 
+
             {/* BOTÓN PUBLICAR */}
+
             <div className="flex justify-center pt-2">
 
               <button
                 type="button"
                 onClick={publicarOferta}
-                className="rounded-full bg-[#6F806C] px-10 py-2.5 font-semibold text-white shadow-sm transition hover:bg-[#81937D] active:scale-95"
+                className="
+                  rounded-full
+                  bg-[#6FAF7B]
+                  px-10
+                  py-2.5
+                  font-semibold
+                  text-white
+                  shadow-sm
+                  transition
+                  hover:bg-[#5F9E6B]
+                  hover:scale-105
+                  active:scale-95
+                "
               >
                 Publicar
               </button>
 
             </div>
 
+
             {/* MENSAJE */}
+
             {mensaje && (
               <p className="text-center text-sm font-semibold text-[#40534A]">
                 {mensaje}
@@ -297,12 +446,17 @@ export default function VendedorPublicarOfertas() {
             )}
 
           </div>
+
         </section>
 
-        {/* MIS OFERTAS ACTUALES */}
-        <section className="mt-8 rounded-2xl border border-[#6D756D] bg-white p-6 shadow-lg md:p-8">
 
-          <h2 className="mb-6 text-center text-xl font-bold text-[#26382C]">
+        {/* ===================================================== */}
+        {/* MIS OFERTAS ACTUALES */}
+        {/* ===================================================== */}
+
+        <section className="mt-6 rounded-xl border border-[#A8D5BA] bg-white p-6 shadow-md md:p-8">
+
+          <h2 className="mb-6 text-center text-xl font-bold text-[#1F1F1F]">
             MIS OFERTAS ACTUALES
           </h2>
 
@@ -312,7 +466,7 @@ export default function VendedorPublicarOfertas() {
 
               <thead>
 
-                <tr className="border-b border-[#D0D4CF] text-xs font-semibold uppercase tracking-wider text-[#40534A]">
+                <tr className="border-b border-[#A8D5BA] text-xs font-semibold uppercase tracking-wider text-[#40534A]">
 
                   <th className="px-4 py-3">
                     #
@@ -342,7 +496,7 @@ export default function VendedorPublicarOfertas() {
 
               </thead>
 
-              <tbody className="divide-y divide-[#E2E4E0]">
+              <tbody className="divide-y divide-[#DDF4F7]">
 
                 {ofertas.length === 0 ? (
 
@@ -365,24 +519,24 @@ export default function VendedorPublicarOfertas() {
                       key={oferta.id_oferta}
                       className={
                         index === 0
-                          ? "bg-[#DDE3D9] font-medium text-[#26382C]"
-                          : "transition hover:bg-[#F3F1E8]"
+                          ? "bg-[#E8F5EC] font-medium text-[#1F1F1F]"
+                          : "transition hover:bg-[#F3FBFC]"
                       }
                     >
 
-                      <td className="px-4 py-4 font-bold text-[#40534A]">
+                      <td className="px-4 py-4 font-bold text-[#39734A]">
                         {String(index + 1).padStart(2, "0")}
                       </td>
 
-                      <td className="px-4 py-4 font-semibold text-[#26382C]">
+                      <td className="px-4 py-4 font-semibold text-[#1F1F1F]">
                         {oferta.material.nombre}
                       </td>
 
-                      <td className="px-4 py-4">
+                      <td className="px-4 py-4 text-[#40534A]">
                         {String(oferta.cantidad_disponible)} kg
                       </td>
 
-                      <td className="px-4 py-4">
+                      <td className="px-4 py-4 text-[#40534A]">
                         {oferta.ubicacion}
                       </td>
 
@@ -400,7 +554,21 @@ export default function VendedorPublicarOfertas() {
 
                           <Link
                             href="/gestion-solicitud"
-                            className="inline-flex items-center rounded-lg border border-[#D4C8CC] bg-[#F0E7E9] px-3 py-1.5 text-xs font-semibold text-[#6B555E] transition hover:bg-[#E7DDE0]"
+                            className="
+                              inline-flex
+                              items-center
+                              rounded-lg
+                              border
+                              border-[#D4C8CC]
+                              bg-[#F0E7E9]
+                              px-3
+                              py-1.5
+                              text-xs
+                              font-semibold
+                              text-[#6B555E]
+                              transition
+                              hover:bg-[#E7DDE0]
+                            "
                           >
                             Ver solicitud
                           </Link>
@@ -426,9 +594,11 @@ export default function VendedorPublicarOfertas() {
             </table>
 
           </div>
+
         </section>
 
       </div>
+
     </main>
   );
 }
