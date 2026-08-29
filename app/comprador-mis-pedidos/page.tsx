@@ -30,12 +30,16 @@ function formatearFecha(fecha: string) {
 
 function colorEstado(estado: string) {
   switch (estado) {
+    case "Pendiente":
+      return "bg-[#F7DD7A] text-[#6D5A12]";
+    case "En gestión":
+      return "bg-[#B8D4D8] text-[#26382C]";
     case "Entrega confirmada":
       return "bg-[#6FAF7B] text-white";
     case "Rechazada":
-      return "bg-[#B8D4D8] text-[#26382C]";
+      return "bg-[#F5D0CE] text-[#8B3A3A]";
     default:
-      return "bg-[#F7DD7A] text-[#6D5A12]";
+      return "bg-[#E8F5EC] text-[#40534A]";
   }
 }
 

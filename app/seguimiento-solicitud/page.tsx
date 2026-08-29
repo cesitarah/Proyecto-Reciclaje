@@ -56,11 +56,11 @@ function obtenerColorEstado(estado: string) {
     case "Pendiente":
       return "bg-[#F7DD7A] text-[#6D5A12]";
     case "En gestión":
-      return "bg-[#F7DD7A] text-[#6D5A12]";
+      return "bg-[#B8D4D8] text-[#26382C]";
     case "Entrega confirmada":
       return "bg-[#6FAF7B] text-white";
     case "Rechazada":
-      return "bg-[#B8D4D8] text-[#26382C]";
+      return "bg-[#F5D0CE] text-[#8B3A3A]";
     default:
       return "bg-[#B8D4D8] text-[#26382C]";
   }
@@ -154,10 +154,10 @@ export default function SeguimientoSolicitud() {
 
         <div className="mb-6">
           <Link
-            href="/comprador-buscar-ofertas"
+            href="/principal"
             className="inline-flex items-center gap-2 text-sm font-semibold text-[#6FAF7B] transition hover:text-[#39734A]"
           >
-            ← Volver
+            ← Volver al panel principal
           </Link>
         </div>
 

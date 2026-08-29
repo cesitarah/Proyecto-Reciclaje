@@ -75,6 +75,10 @@ export default function GestionSolicitudPage() {
     cargarSolicitud();
   }, [idSolicitud]);
 
+  const solicitudFinalizada =
+    solicitud?.estado === "Entrega confirmada" ||
+    solicitud?.estado === "Rechazada";
+
   const guardarCambios = async () => {
     if (!solicitud) return;
 
@@ -205,6 +209,7 @@ export default function GestionSolicitudPage() {
                   <select
                     value={estado}
                     onChange={(e) => setEstado(e.target.value)}
+                    disabled={solicitudFinalizada}
                     className="
                       w-full
                       rounded-xl
@@ -220,6 +225,9 @@ export default function GestionSolicitudPage() {
                       focus:border-[#6FAF7B]
                       focus:ring-2
                       focus:ring-[#A8D5BA]
+                      disabled:cursor-not-allowed
+                      disabled:bg-[#CFEFF5]
+                      disabled:text-[#6D756D]
                     "
                   >
                     {ESTADOS.map((opcion) => (
@@ -228,6 +236,12 @@ export default function GestionSolicitudPage() {
                       </option>
                     ))}
                   </select>
+
+                  {solicitudFinalizada && (
+                    <p className="text-xs text-[#6D756D]">
+                      Esta solicitud ya fue finalizada y no puede modificarse.
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -239,6 +253,7 @@ export default function GestionSolicitudPage() {
                     rows={4}
                     value={indicaciones}
                     onChange={(e) => setIndicaciones(e.target.value)}
+                    readOnly={solicitudFinalizada}
                     placeholder="Ej. Pasar el día lunes a las 11:00 de la mañana."
                     className="
                       w-full
@@ -256,6 +271,8 @@ export default function GestionSolicitudPage() {
                       focus:border-[#6FAF7B]
                       focus:ring-2
                       focus:ring-[#A8D5BA]
+                      read-only:cursor-not-allowed
+                      read-only:bg-[#CFEFF5]
                     "
                   />
 
@@ -265,37 +282,45 @@ export default function GestionSolicitudPage() {
                 </div>
 
                 <div className="border-t border-[#A8D5BA] pt-6">
-                  <p className="mb-4 text-center text-sm text-[#40534A]">
-                    Al confirmar, las indicaciones serán enviadas al comprador y la solicitud cambiará de estado.
-                  </p>
+                  {!solicitudFinalizada ? (
+                    <>
+                      <p className="mb-4 text-center text-sm text-[#40534A]">
+                        Al confirmar, las indicaciones serán enviadas al comprador y la solicitud cambiará de estado.
+                      </p>
 
-                  <div className="flex justify-center">
-                    <button
-                      type="button"
-                      onClick={guardarCambios}
-                      disabled={guardando}
-                      className="
-                        w-full
-                        rounded-full
-                        bg-[#6FAF7B]
-                        px-10
-                        py-3
-                        text-sm
-                        font-semibold
-                        text-white
-                        shadow-sm
-                        transition
-                        hover:bg-[#5F9E6B]
-                        hover:scale-105
-                        active:scale-95
-                        disabled:cursor-not-allowed
-                        disabled:opacity-60
-                        sm:w-auto
-                      "
-                    >
-                      {guardando ? "Guardando..." : "Confirmar entrega"}
-                    </button>
-                  </div>
+                      <div className="flex justify-center">
+                        <button
+                          type="button"
+                          onClick={guardarCambios}
+                          disabled={guardando}
+                          className="
+                            w-full
+                            rounded-full
+                            bg-[#6FAF7B]
+                            px-10
+                            py-3
+                            text-sm
+                            font-semibold
+                            text-white
+                            shadow-sm
+                            transition
+                            hover:bg-[#5F9E6B]
+                            hover:scale-105
+                            active:scale-95
+                            disabled:cursor-not-allowed
+                            disabled:opacity-60
+                            sm:w-auto
+                          "
+                        >
+                          {guardando ? "Guardando..." : "Confirmar entrega"}
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-center text-sm text-[#40534A]">
+                      Esta solicitud ya no admite cambios.
+                    </p>
+                  )}
                 </div>
 
                 {mensaje && (

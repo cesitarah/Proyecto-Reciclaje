@@ -222,6 +222,20 @@ export async function PATCH(
     const nuevoEstado = estado || solicitud.estado;
     const estadoAnterior = solicitud.estado;
 
+    if (
+      (estadoAnterior === "Entrega confirmada" ||
+        estadoAnterior === "Rechazada") &&
+      nuevoEstado !== estadoAnterior
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "No se puede modificar una solicitud que ya fue confirmada o rechazada.",
+        },
+        { status: 400 }
+      );
+    }
+
     const solicitudActualizada = await prisma.$transaction(async (tx) => {
       if (indicaciones && indicaciones.trim()) {
         await tx.mensaje.create({
@@ -247,19 +261,6 @@ export async function PATCH(
           data: {
             cantidad_disponible: Math.max(restante, 0),
             estado: restante > 0 ? "Disponible" : "Completada",
-          },
-        });
-      }
-
-      if (nuevoEstado === "Rechazada" && estadoAnterior === "Entrega confirmada") {
-        const cantidadActual = Number(solicitud.oferta.cantidad_disponible);
-        const cantidadVendida = Number(solicitud.cantidad_solicitada);
-
-        await tx.oferta.update({
-          where: { id_oferta: solicitud.id_oferta },
-          data: {
-            cantidad_disponible: cantidadActual + cantidadVendida,
-            estado: "Disponible",
           },
         });
       }

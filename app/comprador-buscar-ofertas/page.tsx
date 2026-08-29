@@ -25,7 +25,9 @@ export default function CompradorBuscarOfertas() {
   const materialSeleccionado =
     searchParams.get("material") || "Plástico";
 
-  const [cantidad, setCantidad] = useState("");
+  const [cantidad, setCantidad] = useState(
+    () => searchParams.get("cantidad") || ""
+  );
   const [ofertas, setOfertas] = useState<Oferta[]>([]);
   const [mensaje, setMensaje] = useState("");
 
@@ -59,8 +61,12 @@ export default function CompradorBuscarOfertas() {
   };
 
   useEffect(() => {
+    setCantidad(searchParams.get("cantidad") || "");
+  }, [searchParams]);
+
+  useEffect(() => {
     buscarOfertas();
-  }, [materialSeleccionado]);
+  }, [materialSeleccionado, cantidad]);
 
   return (
     <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8">
@@ -414,7 +420,7 @@ export default function CompradorBuscarOfertas() {
                       <td className="px-4 py-4 text-right">
 
                         <Link
-                          href={`/comprador-solicitar-oferta?id_oferta=${oferta.id_oferta}`}
+                          href={`/comprador-solicitar-oferta?id_oferta=${oferta.id_oferta}&material=${encodeURIComponent(materialSeleccionado)}${cantidad ? `&cantidad=${encodeURIComponent(cantidad)}` : ""}`}
                           className="
                             inline-block
                             rounded-lg

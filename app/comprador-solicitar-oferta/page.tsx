@@ -19,6 +19,8 @@ export default function CompradorSolicitarOferta() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const idOferta = searchParams.get("id_oferta");
+  const materialParam = searchParams.get("material");
+  const cantidadParam = searchParams.get("cantidad");
 
   const [oferta, setOferta] = useState<Oferta | null>(null);
   const [cantidad, setCantidad] = useState("");
@@ -108,13 +110,23 @@ export default function CompradorSolicitarOferta() {
     }
   };
 
+  const volverUrl = (() => {
+    const material =
+      materialParam || oferta?.material.nombre || "Plástico";
+    let url = `/comprador-buscar-ofertas?material=${encodeURIComponent(material)}`;
+    if (cantidadParam) {
+      url += `&cantidad=${encodeURIComponent(cantidadParam)}`;
+    }
+    return url;
+  })();
+
   return (
     <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8">
       <div className="mx-auto max-w-2xl">
 
         <div className="mb-6">
           <Link
-            href="/comprador-buscar-ofertas"
+            href={volverUrl}
             className="
               inline-flex
               items-center
@@ -237,7 +249,7 @@ export default function CompradorSolicitarOferta() {
 
                 <div className="flex flex-col gap-3 border-t border-[#A8D5BA] pt-6 sm:flex-row sm:justify-center">
                   <Link
-                    href="/comprador-buscar-ofertas"
+                    href={volverUrl}
                     className="
                       rounded-full
                       border

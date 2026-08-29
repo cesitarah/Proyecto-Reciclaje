@@ -31,6 +31,21 @@ type SolicitudRecibida = {
   };
 };
 
+function colorEstadoSolicitud(estado: string) {
+  switch (estado) {
+    case "Pendiente":
+      return "bg-[#F7DD7A] text-[#6D5A12]";
+    case "En gestión":
+      return "bg-[#B8D4D8] text-[#26382C]";
+    case "Entrega confirmada":
+      return "bg-[#6FAF7B] text-white";
+    case "Rechazada":
+      return "bg-[#F5D0CE] text-[#8B3A3A]";
+    default:
+      return "bg-[#E8F5EC] text-[#40534A]";
+  }
+}
+
 export default function VendedorPublicarOfertas() {
   const searchParams = useSearchParams();
 
@@ -691,7 +706,9 @@ export default function VendedorPublicarOfertas() {
                         {solicitud.comprador.nombre}
                       </td>
                       <td className="px-4 py-4">
-                        <span className="inline-flex items-center rounded-full bg-[#F7DD7A] px-3 py-1 text-xs font-bold text-[#6D5A12]">
+                        <span
+                          className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold ${colorEstadoSolicitud(solicitud.estado)}`}
+                        >
                           {solicitud.estado}
                         </span>
                       </td>
