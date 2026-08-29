@@ -1,13 +1,121 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+
+type Solicitud = {
+  id_solicitud: number;
+  cantidad_solicitada: number;
+  estado: string;
+  total: number;
+  oferta: {
+    ubicacion: string;
+    material: {
+      nombre: string;
+      precio_por_kg: number;
+    };
+  };
+  comprador: {
+    nombre: string;
+  };
+  mensajes: Array<{
+    mensaje: string;
+  }>;
+};
+
+const ESTADOS = [
+  "Pendiente",
+  "En gestión",
+  "Entrega confirmada",
+  "Rechazada",
+];
 
 export default function GestionSolicitudPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const idSolicitud = searchParams.get("id_solicitud");
+
+  const [solicitud, setSolicitud] = useState<Solicitud | null>(null);
+  const [estado, setEstado] = useState("Pendiente");
+  const [indicaciones, setIndicaciones] = useState("");
+  const [mensaje, setMensaje] = useState("");
+  const [cargando, setCargando] = useState(true);
+  const [guardando, setGuardando] = useState(false);
+
+  useEffect(() => {
+    if (!idSolicitud) {
+      setMensaje("No se indicó ninguna solicitud.");
+      setCargando(false);
+      return;
+    }
+
+    const cargarSolicitud = async () => {
+      try {
+        const response = await fetch(`/api/solicitudes/${idSolicitud}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          setMensaje(data.error || "No se pudo cargar la solicitud.");
+          return;
+        }
+
+        setSolicitud(data);
+        setEstado(data.estado);
+
+        const ultimoMensaje = data.mensajes[0]?.mensaje ?? "";
+        setIndicaciones(ultimoMensaje);
+      } catch {
+        setMensaje("Error de conexión.");
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    cargarSolicitud();
+  }, [idSolicitud]);
+
+  const guardarCambios = async () => {
+    if (!solicitud) return;
+
+    setMensaje("");
+    setGuardando(true);
+
+    try {
+      const response = await fetch(`/api/solicitudes/${solicitud.id_solicitud}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          estado,
+          indicaciones: indicaciones.trim() || undefined,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMensaje(data.error || "No se pudo actualizar la solicitud.");
+        setGuardando(false);
+        return;
+      }
+
+      setMensaje("¡Cambios guardados correctamente!");
+      setSolicitud(data);
+      setEstado(data.estado);
+
+      setTimeout(() => {
+        router.push("/vendedor-publicar-ofertas");
+      }, 1500);
+    } catch {
+      setMensaje("Error de conexión.");
+      setGuardando(false);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8">
       <div className="mx-auto max-w-2xl">
 
-        {/* BOTÓN VOLVER */}
         <div className="mb-6">
           <Link
             href="/vendedor-publicar-ofertas"
@@ -26,166 +134,181 @@ export default function GestionSolicitudPage() {
           </Link>
         </div>
 
-        {/* CONTENEDOR PRINCIPAL */}
         <section className="overflow-hidden rounded-xl border border-[#A8D5BA] bg-[#E8F5EC] shadow-md">
 
-          {/* ENCABEZADO */}
           <div className="bg-[#C3F4D4] px-5 py-3">
-
             <h1 className="text-base font-bold tracking-wide text-[#1F1F1F]">
               VENDEDOR
             </h1>
-
           </div>
 
           <div className="space-y-6 p-6 md:p-8">
 
-            {/* RESUMEN DEL PEDIDO */}
-            <div className="space-y-2">
-
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
-                Resumen del pedido
-              </label>
-
-              <div className="space-y-3 rounded-xl border border-[#A8D5BA] bg-white p-5">
-
-                <div className="flex justify-between border-b border-[#A8D5BA] pb-3">
-
-                  <span className="font-medium text-[#40534A]">
-                    Material:
-                  </span>
-
-                  <span className="font-bold text-[#1F1F1F]">
-                    Plástico PET
-                  </span>
-
-                </div>
-
-                <div className="flex justify-between border-b border-[#A8D5BA] pb-3">
-
-                  <span className="font-medium text-[#40534A]">
-                    Cantidad solicitada:
-                  </span>
-
-                  <span className="font-semibold text-[#1F1F1F]">
-                    13 kg
-                  </span>
-
-                </div>
-
-                <div className="flex justify-between border-b border-[#A8D5BA] pb-3">
-
-                  <span className="font-medium text-[#40534A]">
-                    Ubicación:
-                  </span>
-
-                  <span className="font-semibold text-[#1F1F1F]">
-                    Santa Cruz
-                  </span>
-
-                </div>
-
-                <div className="flex justify-between border-b border-[#A8D5BA] pb-3">
-
-                  <span className="font-medium text-[#40534A]">
-                    Comprador:
-                  </span>
-
-                  <span className="font-semibold text-[#1F1F1F]">
-                    Juan Pérez
-                  </span>
-
-                </div>
-
-                <div className="flex justify-between pt-1">
-
-                  <span className="font-medium text-[#40534A]">
-                    Total estimado:
-                  </span>
-
-                  <span className="font-bold text-[#39734A]">
-                    $ 71.50
-                  </span>
-
-                </div>
-
-              </div>
-
-              <p className="text-xs text-[#40534A]">
-                Estos datos serán cargados automáticamente desde la solicitud realizada por el comprador.
+            {cargando ? (
+              <p className="text-center text-sm text-[#40534A]">
+                Cargando solicitud...
               </p>
+            ) : solicitud ? (
+              <>
+                <div className="space-y-2">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
+                    Resumen del pedido
+                  </label>
 
-            </div>
+                  <div className="space-y-3 rounded-xl border border-[#A8D5BA] bg-white p-5">
+                    <div className="flex justify-between border-b border-[#A8D5BA] pb-3">
+                      <span className="font-medium text-[#40534A]">Material:</span>
+                      <span className="font-bold text-[#1F1F1F]">
+                        {solicitud.oferta.material.nombre}
+                      </span>
+                    </div>
 
-            {/* DESCRIPCIÓN / INDICACIONES */}
-            <div className="space-y-2">
+                    <div className="flex justify-between border-b border-[#A8D5BA] pb-3">
+                      <span className="font-medium text-[#40534A]">
+                        Cantidad solicitada:
+                      </span>
+                      <span className="font-semibold text-[#1F1F1F]">
+                        {solicitud.cantidad_solicitada} kg
+                      </span>
+                    </div>
 
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
-                Indicaciones de entrega
-              </label>
+                    <div className="flex justify-between border-b border-[#A8D5BA] pb-3">
+                      <span className="font-medium text-[#40534A]">Ubicación:</span>
+                      <span className="font-semibold text-[#1F1F1F]">
+                        {solicitud.oferta.ubicacion}
+                      </span>
+                    </div>
 
-              <textarea
-                rows={4}
-                placeholder="Ej. Pasar el día lunes a las 11:00 de la mañana."
-                className="
-                  w-full
-                  resize-none
-                  rounded-xl
-                  border
-                  border-[#A8D5BA]
-                  bg-white
-                  p-4
-                  text-sm
-                  text-[#1F1F1F]
-                  outline-none
-                  transition
-                  placeholder-[#789083]
-                  focus:border-[#6FAF7B]
-                  focus:ring-2
-                  focus:ring-[#A8D5BA]
-                "
-              />
+                    <div className="flex justify-between border-b border-[#A8D5BA] pb-3">
+                      <span className="font-medium text-[#40534A]">Comprador:</span>
+                      <span className="font-semibold text-[#1F1F1F]">
+                        {solicitud.comprador.nombre}
+                      </span>
+                    </div>
 
-              <p className="text-xs text-[#40534A]">
-                Escriba aquí las indicaciones que desea enviar al comprador.
+                    <div className="flex justify-between pt-1">
+                      <span className="font-medium text-[#40534A]">
+                        Total estimado:
+                      </span>
+                      <span className="font-bold text-[#39734A]">
+                        Bs {solicitud.total.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
+                    Estado de la solicitud
+                  </label>
+
+                  <select
+                    value={estado}
+                    onChange={(e) => setEstado(e.target.value)}
+                    className="
+                      w-full
+                      rounded-xl
+                      border
+                      border-[#A8D5BA]
+                      bg-white
+                      px-4
+                      py-3
+                      text-sm
+                      text-[#1F1F1F]
+                      outline-none
+                      transition
+                      focus:border-[#6FAF7B]
+                      focus:ring-2
+                      focus:ring-[#A8D5BA]
+                    "
+                  >
+                    {ESTADOS.map((opcion) => (
+                      <option key={opcion} value={opcion}>
+                        {opcion}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#40534A]">
+                    Indicaciones de entrega
+                  </label>
+
+                  <textarea
+                    rows={4}
+                    value={indicaciones}
+                    onChange={(e) => setIndicaciones(e.target.value)}
+                    placeholder="Ej. Pasar el día lunes a las 11:00 de la mañana."
+                    className="
+                      w-full
+                      resize-none
+                      rounded-xl
+                      border
+                      border-[#A8D5BA]
+                      bg-white
+                      p-4
+                      text-sm
+                      text-[#1F1F1F]
+                      outline-none
+                      transition
+                      placeholder-[#789083]
+                      focus:border-[#6FAF7B]
+                      focus:ring-2
+                      focus:ring-[#A8D5BA]
+                    "
+                  />
+
+                  <p className="text-xs text-[#40534A]">
+                    Escriba aquí las indicaciones que desea enviar al comprador.
+                  </p>
+                </div>
+
+                <div className="border-t border-[#A8D5BA] pt-6">
+                  <p className="mb-4 text-center text-sm text-[#40534A]">
+                    Al confirmar, las indicaciones serán enviadas al comprador y la solicitud cambiará de estado.
+                  </p>
+
+                  <div className="flex justify-center">
+                    <button
+                      type="button"
+                      onClick={guardarCambios}
+                      disabled={guardando}
+                      className="
+                        w-full
+                        rounded-full
+                        bg-[#6FAF7B]
+                        px-10
+                        py-3
+                        text-sm
+                        font-semibold
+                        text-white
+                        shadow-sm
+                        transition
+                        hover:bg-[#5F9E6B]
+                        hover:scale-105
+                        active:scale-95
+                        disabled:cursor-not-allowed
+                        disabled:opacity-60
+                        sm:w-auto
+                      "
+                    >
+                      {guardando ? "Guardando..." : "Confirmar entrega"}
+                    </button>
+                  </div>
+                </div>
+
+                {mensaje && (
+                  <p className="text-center text-sm font-semibold text-[#39734A]">
+                    {mensaje}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="text-center text-sm font-semibold text-[#B94A48]">
+                {mensaje || "No se encontró la solicitud."}
               </p>
-
-            </div>
-
-            {/* CONFIRMAR ENTREGA */}
-            <div className="border-t border-[#A8D5BA] pt-6">
-
-              <p className="mb-4 text-center text-sm text-[#40534A]">
-                Al confirmar, las indicaciones serán enviadas al comprador y la solicitud cambiará de estado.
-              </p>
-
-              <div className="flex justify-center">
-
-                <button
-                  type="button"
-                  className="
-                    w-full
-                    rounded-full
-                    bg-[#6FAF7B]
-                    px-10
-                    py-3
-                    text-sm
-                    font-semibold
-                    text-white
-                    shadow-sm
-                    transition
-                    hover:bg-[#5F9E6B]
-                    hover:scale-105
-                    active:scale-95
-                    sm:w-auto
-                  "
-                >
-                  Confirmar entrega
-                </button>
-
-              </div>
-
-            </div>
+            )}
 
           </div>
         </section>

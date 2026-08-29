@@ -16,6 +16,21 @@ type Oferta = {
   };
 };
 
+type SolicitudRecibida = {
+  id_solicitud: number;
+  id_oferta: number;
+  cantidad_solicitada: number;
+  estado: string;
+  oferta: {
+    material: {
+      nombre: string;
+    };
+  };
+  comprador: {
+    nombre: string;
+  };
+};
+
 export default function VendedorPublicarOfertas() {
   const searchParams = useSearchParams();
 
@@ -26,6 +41,7 @@ export default function VendedorPublicarOfertas() {
   const [ubicacion, setUbicacion] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [ofertas, setOfertas] = useState<Oferta[]>([]);
+  const [solicitudes, setSolicitudes] = useState<SolicitudRecibida[]>([]);
   const [precio, setPrecio] = useState("Cargando...");
 
   /* ==========================================
@@ -50,6 +66,24 @@ export default function VendedorPublicarOfertas() {
     } catch (error) {
       console.error(error);
       setPrecio("No disponible");
+    }
+  };
+
+  /* ==========================================
+     CARGAR SOLICITUDES RECIBIDAS
+  ========================================== */
+  const cargarSolicitudes = async () => {
+    try {
+      const response = await fetch("/api/solicitudes?vendedor=me");
+      const data = await response.json();
+
+      if (!response.ok) {
+        return;
+      }
+
+      setSolicitudes(data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -82,6 +116,7 @@ export default function VendedorPublicarOfertas() {
   useEffect(() => {
     cargarPrecio();
     cargarOfertas();
+    cargarSolicitudes();
   }, [materialSeleccionado]);
 
   /* ==========================================
@@ -123,6 +158,7 @@ export default function VendedorPublicarOfertas() {
       setUbicacion("");
 
       cargarOfertas();
+      cargarSolicitudes();
     } catch (error) {
       console.error(error);
       setMensaje("Error de conexión.");
@@ -553,7 +589,11 @@ export default function VendedorPublicarOfertas() {
                         {oferta.estado === "Solicitada" ? (
 
                           <Link
-                            href="/gestion-solicitud"
+                            href={`/gestion-solicitud?id_solicitud=${
+                              solicitudes.find(
+                                (s) => s.id_oferta === oferta.id_oferta
+                              )?.id_solicitud ?? ""
+                            }`}
                             className="
                               inline-flex
                               items-center
@@ -587,6 +627,93 @@ export default function VendedorPublicarOfertas() {
 
                   ))
 
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+
+        {/* ===================================================== */}
+        {/* SOLICITUDES RECIBIDAS */}
+        {/* ===================================================== */}
+
+        <section className="mt-6 rounded-xl border border-[#A8D5BA] bg-white p-6 shadow-md md:p-8">
+
+          <h2 className="mb-6 text-center text-xl font-bold text-[#1F1F1F]">
+            SOLICITUDES RECIBIDAS
+          </h2>
+
+          <div className="overflow-x-auto">
+
+            <table className="w-full min-w-[700px] text-left text-sm">
+
+              <thead>
+                <tr className="border-b border-[#A8D5BA] text-xs font-semibold uppercase tracking-wider text-[#40534A]">
+                  <th className="px-4 py-3">Material</th>
+                  <th className="px-4 py-3">Cantidad</th>
+                  <th className="px-4 py-3">Comprador</th>
+                  <th className="px-4 py-3">Estado</th>
+                  <th className="px-4 py-3">Acción</th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-[#DDF4F7]">
+
+                {solicitudes.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="px-4 py-8 text-center text-sm text-[#6D756D]"
+                    >
+                      Todavía no tienes solicitudes recibidas.
+                    </td>
+                  </tr>
+                ) : (
+                  solicitudes.map((solicitud) => (
+                    <tr key={solicitud.id_solicitud} className="transition hover:bg-[#F3FBFC]">
+                      <td className="px-4 py-4 font-semibold text-[#1F1F1F]">
+                        {solicitud.oferta.material.nombre}
+                      </td>
+                      <td className="px-4 py-4 text-[#40534A]">
+                        {solicitud.cantidad_solicitada} kg
+                      </td>
+                      <td className="px-4 py-4 text-[#40534A]">
+                        {solicitud.comprador.nombre}
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className="inline-flex items-center rounded-full bg-[#F7DD7A] px-3 py-1 text-xs font-bold text-[#6D5A12]">
+                          {solicitud.estado}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <Link
+                          href={`/gestion-solicitud?id_solicitud=${solicitud.id_solicitud}`}
+                          className="
+                            inline-flex
+                            items-center
+                            rounded-lg
+                            border
+                            border-[#D4C8CC]
+                            bg-[#F0E7E9]
+                            px-3
+                            py-1.5
+                            text-xs
+                            font-semibold
+                            text-[#6B555E]
+                            transition
+                            hover:bg-[#E7DDE0]
+                          "
+                        >
+                          Gestionar
+                        </Link>
+                      </td>
+                    </tr>
+                  ))
                 )}
 
               </tbody>

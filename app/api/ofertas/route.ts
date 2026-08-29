@@ -14,15 +14,11 @@ export async function GET(request: Request) {
     const nombreMaterial = searchParams.get("material");
     const cantidad = searchParams.get("cantidad");
 
-    const where: any = {
-      estado: "Disponible",
-    };
+    const where: Record<string, unknown> = {};
 
     /*
       VENDEDOR:
-      Solo muestra sus propias ofertas.
-      No se filtran por material porque "Mis ofertas actuales"
-      debe mostrar todas sus publicaciones.
+      Solo muestra sus propias ofertas (todos los estados).
     */
     if (usuarioRol === "Vendedor") {
       if (!usuarioId) {
@@ -37,6 +33,8 @@ export async function GET(request: Request) {
       }
 
       where.id_vendedor = Number(usuarioId);
+    } else {
+      where.estado = "Disponible";
     }
 
     /*
