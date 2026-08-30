@@ -1,24 +1,8 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-
-type Pedido = {
-  id_solicitud: number;
-  cantidad_solicitada: number;
-  estado: string;
-  fecha_solicitud: string;
-  total: number;
-  oferta: {
-    ubicacion: string;
-    material: {
-      nombre: string;
-    };
-    vendedor: {
-      nombre: string;
-    };
-  };
-};
+import { redirect } from "next/navigation";
+import PageContainer from "../components/PageContainer";
+import { requireSession } from "@/lib/auth/session";
+import { getPedidosComprador } from "@/lib/data/solicitudes";
 
 function formatearFecha(fecha: string) {
   return new Date(fecha).toLocaleDateString("es-BO", {
@@ -43,37 +27,22 @@ function colorEstado(estado: string) {
   }
 }
 
-export default function CompradorMisPedidos() {
-  const [pedidos, setPedidos] = useState<Pedido[]>([]);
-  const [mensaje, setMensaje] = useState("");
-  const [cargando, setCargando] = useState(true);
+export default async function CompradorMisPedidos() {
+  const session = await requireSession();
 
-  useEffect(() => {
-    const cargarPedidos = async () => {
-      try {
-        const response = await fetch("/api/solicitudes?comprador=me");
-        const data = await response.json();
+  if (!session) {
+    redirect("/login");
+  }
 
-        if (!response.ok) {
-          setMensaje(data.error || "No se pudieron cargar tus pedidos.");
-          return;
-        }
+  if (session.usuarioRol !== "Comprador") {
+    redirect("/principal");
+  }
 
-        setPedidos(data);
-      } catch {
-        setMensaje("Error de conexión.");
-      } finally {
-        setCargando(false);
-      }
-    };
-
-    cargarPedidos();
-  }, []);
+  const pedidos = await getPedidosComprador(session.usuarioId);
 
   return (
-    <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8">
-      <div className="mx-auto max-w-5xl">
-
+    <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8 lg:px-10 xl:px-12 2xl:px-16">
+      <PageContainer>
         <div className="mb-6">
           <Link
             href="/principal"
@@ -84,7 +53,6 @@ export default function CompradorMisPedidos() {
         </div>
 
         <section className="overflow-hidden rounded-xl border border-[#A8D5BA] bg-[#E8F5EC] shadow-md">
-
           <div className="bg-[#C3F4D4] px-5 py-3">
             <h1 className="text-base font-bold tracking-wide text-[#1F1F1F]">
               COMPRADOR
@@ -92,23 +60,16 @@ export default function CompradorMisPedidos() {
           </div>
 
           <div className="space-y-6 p-6 md:p-8">
-
             <div>
-              <h2 className="text-2xl font-bold text-[#1F1F1F]">
-                MIS PEDIDOS
-              </h2>
+              <h2 className="text-2xl font-bold text-[#1F1F1F]">MIS PEDIDOS</h2>
               <p className="mt-2 text-sm text-[#40534A]">
                 Revisa el estado de cada solicitud que has realizado.
               </p>
             </div>
 
-            {cargando ? (
-              <p className="text-center text-sm text-[#40534A]">
-                Cargando pedidos...
-              </p>
-            ) : pedidos.length === 0 ? (
+            {pedidos.length === 0 ? (
               <p className="text-center text-sm text-[#6D756D]">
-                {mensaje || "Todavía no tienes pedidos realizados."}
+                Todavía no tienes pedidos realizados.
               </p>
             ) : (
               <div className="overflow-x-auto rounded-xl border border-[#A8D5BA] bg-white">
@@ -127,7 +88,10 @@ export default function CompradorMisPedidos() {
                   </thead>
                   <tbody className="divide-y divide-[#DDF4F7]">
                     {pedidos.map((pedido) => (
-                      <tr key={pedido.id_solicitud} className="transition hover:bg-[#F3FBFC]">
+                      <tr
+                        key={pedido.id_solicitud}
+                        className="transition hover:bg-[#F3FBFC]"
+                      >
                         <td className="px-4 py-4 font-bold text-[#39734A]">
                           #{String(pedido.id_solicitud).padStart(3, "0")}
                         </td>
@@ -156,18 +120,7 @@ export default function CompradorMisPedidos() {
                         <td className="px-4 py-4">
                           <Link
                             href={`/seguimiento-solicitud?id_solicitud=${pedido.id_solicitud}`}
-                            className="
-                              inline-flex
-                              rounded-lg
-                              bg-[#6FAF7B]
-                              px-3
-                              py-1.5
-                              text-xs
-                              font-semibold
-                              text-white
-                              transition
-                              hover:bg-[#5F9E6B]
-                            "
+                            className="inline-flex rounded-lg bg-[#6FAF7B] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#5F9E6B]"
                           >
                             Ver seguimiento
                           </Link>
@@ -178,17 +131,9 @@ export default function CompradorMisPedidos() {
                 </table>
               </div>
             )}
-
-            {mensaje && pedidos.length > 0 && (
-              <p className="text-center text-sm font-semibold text-[#40534A]">
-                {mensaje}
-              </p>
-            )}
-
           </div>
         </section>
-
-      </div>
+      </PageContainer>
     </main>
   );
 }

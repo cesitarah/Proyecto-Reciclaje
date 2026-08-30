@@ -1,101 +1,10 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import {
+  formatSolicitudDetail,
+  solicitudDetailInclude,
+} from "@/lib/data/solicitudes";
 import prisma from "@/lib/prisma";
-
-const solicitudInclude = {
-  oferta: {
-    include: {
-      material: true,
-      vendedor: true,
-    },
-  },
-  comprador: true,
-  mensajes: {
-    orderBy: { fecha: "desc" as const },
-    include: { usuario: true },
-  },
-};
-
-function formatSolicitud(solicitud: {
-  id_solicitud: number;
-  id_oferta: number;
-  id_comprador: number;
-  cantidad_solicitada: { toString(): string } | number;
-  estado: string;
-  fecha_solicitud: Date;
-  oferta: {
-    id_oferta: number;
-    cantidad_disponible: { toString(): string } | number;
-    ubicacion: string;
-    estado: string;
-    material: {
-      id_material: number;
-      nombre: string;
-      precio_por_kg: { toString(): string } | number;
-    };
-    vendedor: {
-      id_usuario: number;
-      nombre: string;
-      telefono: string | null;
-    };
-  };
-  comprador: {
-    id_usuario: number;
-    nombre: string;
-    telefono: string | null;
-  };
-  mensajes: Array<{
-    id_mensaje: number;
-    mensaje: string;
-    tipo: string | null;
-    fecha: Date;
-    usuario: { id_usuario: number; nombre: string };
-  }>;
-}) {
-  const cantidad = Number(solicitud.cantidad_solicitada);
-  const precioKg = Number(solicitud.oferta.material.precio_por_kg);
-
-  return {
-    id_solicitud: solicitud.id_solicitud,
-    id_oferta: solicitud.id_oferta,
-    id_comprador: solicitud.id_comprador,
-    cantidad_solicitada: cantidad,
-    estado: solicitud.estado,
-    fecha_solicitud: solicitud.fecha_solicitud,
-    total: cantidad * precioKg,
-    oferta: {
-      id_oferta: solicitud.oferta.id_oferta,
-      cantidad_disponible: Number(solicitud.oferta.cantidad_disponible),
-      ubicacion: solicitud.oferta.ubicacion,
-      estado: solicitud.oferta.estado,
-      material: {
-        id_material: solicitud.oferta.material.id_material,
-        nombre: solicitud.oferta.material.nombre,
-        precio_por_kg: precioKg,
-      },
-      vendedor: {
-        id_usuario: solicitud.oferta.vendedor.id_usuario,
-        nombre: solicitud.oferta.vendedor.nombre,
-        telefono: solicitud.oferta.vendedor.telefono,
-      },
-    },
-    comprador: {
-      id_usuario: solicitud.comprador.id_usuario,
-      nombre: solicitud.comprador.nombre,
-      telefono: solicitud.comprador.telefono,
-    },
-    mensajes: solicitud.mensajes.map((m) => ({
-      id_mensaje: m.id_mensaje,
-      mensaje: m.mensaje,
-      tipo: m.tipo,
-      fecha: m.fecha,
-      usuario: {
-        id_usuario: m.usuario.id_usuario,
-        nombre: m.usuario.nombre,
-      },
-    })),
-  };
-}
 
 const ESTADOS_VALIDOS = [
   "Pendiente",
@@ -131,7 +40,7 @@ export async function GET(
 
     const solicitud = await prisma.solicitud.findUnique({
       where: { id_solicitud: idSolicitud },
-      include: solicitudInclude,
+      include: solicitudDetailInclude,
     });
 
     if (!solicitud) {
@@ -152,7 +61,7 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(formatSolicitud(solicitud));
+    return NextResponse.json(formatSolicitudDetail(solicitud));
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -268,11 +177,11 @@ export async function PATCH(
       return tx.solicitud.update({
         where: { id_solicitud: idSolicitud },
         data: { estado: nuevoEstado },
-        include: solicitudInclude,
+        include: solicitudDetailInclude,
       });
     });
 
-    return NextResponse.json(formatSolicitud(solicitudActualizada));
+    return NextResponse.json(formatSolicitudDetail(solicitudActualizada));
   } catch (error) {
     console.error(error);
     return NextResponse.json(
