@@ -52,43 +52,44 @@ export default async function Home() {
   const rol = cookieStore.get("usuario_rol")?.value;
 
   return (
-    <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 md:px-8">
+    <main className="min-h-screen w-full overflow-x-hidden bg-[#CFEFF5] px-3 py-4 sm:px-4 sm:py-5 md:px-8">
 
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto w-full max-w-5xl">
 
         {/* ================= CONTENEDOR PRINCIPAL ================= */}
-        <section className="overflow-hidden rounded-xl border border-[#A8D5BA] bg-[#E8F5EC] shadow-md">
+        <section className="w-full overflow-hidden rounded-xl border border-[#A8D5BA] bg-[#E8F5EC] shadow-md">
 
           {/* ================= TÍTULO ================= */}
-          <div className="bg-[#C3F4D4] px-5 py-3">
+          <div className="bg-[#C3F4D4] px-4 py-3 sm:px-5">
 
-            <h1 className="text-base font-bold tracking-wide text-[#1F1F1F]">
+            <h1 className="text-sm font-bold tracking-wide text-[#1F1F1F] sm:text-base">
               Página Principal
             </h1>
 
           </div>
 
           {/* ================= BANNER ================= */}
-          <div className="relative h-40 overflow-hidden md:h-48">
+          <div className="relative h-44 w-full overflow-hidden sm:h-40 md:h-48">
 
             <Image
               src="/reciclaje-banner.jpg"
               alt="Reciclaje"
               fill
               priority
-              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 1024px"
+              className="object-cover object-center"
             />
 
             {/* CAPA VERDE SUAVE */}
             <div className="absolute inset-0 bg-[#39734A]/35" />
 
-            <div className="relative z-10 flex h-full flex-col items-center justify-center px-5 text-center">
+            <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center sm:px-5">
 
-              <h2 className="text-2xl font-black tracking-[0.15em] text-white drop-shadow-md md:text-4xl">
+              <h2 className="text-xl font-black tracking-[0.08em] text-white drop-shadow-md sm:text-2xl md:text-4xl md:tracking-[0.15em]">
                 NUEVA VIDA
               </h2>
 
-              <p className="mt-2 max-w-lg text-xs font-medium text-white md:text-sm">
+              <p className="mt-2 max-w-lg text-[11px] font-medium leading-snug text-white sm:text-xs md:text-sm">
                 Dale una nueva oportunidad a los materiales reciclables
               </p>
 
@@ -140,7 +141,7 @@ export default async function Home() {
           </div>
 
           {/* ================= GRID ================= */}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
 
             {materiales.map((material) => {
 
@@ -192,14 +193,16 @@ export default async function Home() {
                   </div>
 
                   {/* ================= IMAGEN ================= */}
-                  <div className="relative h-20 w-full overflow-hidden">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden">
 
                     <Image
                       src={material.imagen}
                       alt={material.nombre}
                       fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="
                         object-cover
+                        object-center
                         transition-transform
                         duration-300
                         group-hover:scale-105
