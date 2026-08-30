@@ -158,7 +158,7 @@ export default function AdminPanel({ initial }: AdminPanelProps) {
   };
 
   return (
-    <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8 lg:px-10 xl:px-12 2xl:px-16">
+    <main className="min-h-screen bg-nv-page px-4 py-5 text-[#1F1F1F] md:px-8 lg:px-10 xl:px-12 2xl:px-16">
 
       <PageContainer>
 

@@ -94,7 +94,7 @@ export default function SeguimientoView({ solicitud }: SeguimientoViewProps) {
   ];
 
   return (
-    <main className="min-h-screen bg-[#CFEFF5] px-4 py-8 text-[#26382C] md:px-8">
+    <main className="min-h-screen bg-nv-page px-4 py-8 text-[#26382C] md:px-8">
       <div className="mx-auto max-w-2xl">
 
         <div className="mb-6">

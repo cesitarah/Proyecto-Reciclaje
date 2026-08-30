@@ -22,7 +22,7 @@ export default async function SeguimientoSolicitudPage({
 
   if (!params.id_solicitud || Number.isNaN(idSolicitud)) {
     return (
-      <main className="min-h-screen bg-[#CFEFF5] px-4 py-8 text-[#26382C] md:px-8">
+      <main className="min-h-screen bg-nv-page px-4 py-8 text-[#26382C] md:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold text-[#39734A]">
             No se indicó ninguna solicitud.
@@ -39,7 +39,7 @@ export default async function SeguimientoSolicitudPage({
 
   if (!solicitud || solicitud.id_comprador !== session.usuarioId) {
     return (
-      <main className="min-h-screen bg-[#CFEFF5] px-4 py-8 text-[#26382C] md:px-8">
+      <main className="min-h-screen bg-nv-page px-4 py-8 text-[#26382C] md:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold text-[#39734A]">
             No se encontró la solicitud.
