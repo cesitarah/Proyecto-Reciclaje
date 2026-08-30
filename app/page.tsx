@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-zinc-950">
+    <main className="flex min-h-screen items-center justify-center bg-nv-page">
       <div className="text-center">
-        <h1 className="mb-6 text-3xl font-bold text-white">
+        <h1 className="mb-6 text-3xl font-bold text-[#26382C]">
           Nueva Vida
         </h1>
 

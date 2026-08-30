@@ -52,7 +52,7 @@ export default function Register() {
   };
 
   return (
-    <main className="min-h-screen w-full flex items-center justify-center bg-[#E8F6FA] px-4 py-5">
+    <main className="flex min-h-screen w-full items-center justify-center bg-nv-page px-4 py-5">
 
       {/* ================= CUADRO PRINCIPAL ================= */}
       <div className="w-full max-w-[390px] rounded-2xl bg-[#E8F5EC] px-7 py-5 shadow-xl border border-[#A8D5BA]">

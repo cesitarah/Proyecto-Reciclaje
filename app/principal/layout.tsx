@@ -8,7 +8,7 @@ export default function PrincipalLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col bg-[#CFEFF5]">
+    <div className="flex min-h-screen flex-col bg-nv-page">
       <Header />
       <div className="flex-1">{children}</div>
       <Footer />

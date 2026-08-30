@@ -59,7 +59,7 @@ export default function Login() {
   };
 
   return (
-    <main className="min-h-screen w-full flex items-center justify-center bg-[#E8F6FA] p-6">
+    <main className="flex min-h-screen w-full items-center justify-center bg-nv-page p-6">
 
       {/* CONTENEDOR PRINCIPAL */}
       <div className="w-full max-w-[750px] h-[500px] flex rounded-2xl overflow-hidden shadow-xl border border-[#A8D5BA]">

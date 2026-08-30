@@ -26,7 +26,7 @@ export default async function GestionSolicitudPage({
 
   if (!params.id_solicitud || Number.isNaN(idSolicitud)) {
     return (
-      <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8">
+      <main className="min-h-screen bg-nv-page px-4 py-5 text-[#1F1F1F] md:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold text-[#B94A48]">
             No se indicó ninguna solicitud.
@@ -43,7 +43,7 @@ export default async function GestionSolicitudPage({
 
   if (!solicitud || solicitud.oferta.vendedor.id_usuario !== session.usuarioId) {
     return (
-      <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8">
+      <main className="min-h-screen bg-nv-page px-4 py-5 text-[#1F1F1F] md:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold text-[#B94A48]">
             No se encontró la solicitud.

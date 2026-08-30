@@ -121,7 +121,7 @@ export default function CompradorSolicitarOferta() {
   })();
 
   return (
-    <main className="min-h-screen bg-[#CFEFF5] px-4 py-5 text-[#1F1F1F] md:px-8">
+    <main className="min-h-screen bg-nv-page px-4 py-5 text-[#1F1F1F] md:px-8">
       <div className="mx-auto max-w-2xl">
 
         <div className="mb-6">
