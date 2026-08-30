@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 export default function PrincipalLayout({
@@ -7,12 +8,10 @@ export default function PrincipalLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="min-h-screen">
+    <div className="flex min-h-screen flex-col bg-[#CFEFF5]">
       <Header />
-
-      <main>
-        {children}
-      </main>
+      <div className="flex-1">{children}</div>
+      <Footer />
     </div>
   );
 }

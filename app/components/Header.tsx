@@ -26,14 +26,14 @@ export default function Header() {
     "flex items-center justify-center gap-2 rounded-lg bg-[#E99A9A] px-4 py-2.5 text-sm font-semibold text-[#5C2424] shadow-sm transition duration-200 hover:bg-[#E27D7D] active:scale-95 touch-manipulation";
 
   return (
-    <header className="relative w-full bg-[#39734A] px-3 py-3 shadow-md sm:px-6 sm:py-4">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2">
+    <header className="relative w-full bg-[#39734A] px-3 py-3 shadow-md sm:px-6 sm:py-4 lg:px-10 xl:px-12 2xl:px-16">
+      <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-2 lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[1440px]">
         <Link
           href="/principal"
           className="flex min-w-0 shrink items-center gap-1.5 text-white sm:gap-2"
           onClick={() => setMenuAbierto(false)}
         >
-          <span className="shrink-0 text-lg text-[#C3F4D4] sm:text-2xl">♻️</span>
+          <span className="nv-animate-float shrink-0 text-lg text-[#C3F4D4] sm:text-2xl">♻️</span>
           <span className="truncate text-sm font-semibold tracking-wide sm:text-xl">
             NUEVA VIDA
           </span>
@@ -97,7 +97,7 @@ export default function Header() {
 
       {menuAbierto && (
         <nav className="absolute left-0 right-0 top-full z-50 border-t border-[#2F5F3D] bg-[#39734A] px-3 py-3 shadow-lg md:hidden">
-          <div className="mx-auto flex max-w-6xl flex-col gap-2">
+          <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[1440px]">
             <Link
               href="/principal"
               onClick={() => setMenuAbierto(false)}
