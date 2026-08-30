@@ -327,12 +327,15 @@ export default function CompradorBuscarOfertas() {
 
         <section className="mt-6 rounded-xl border border-[#A8D5BA] bg-white p-6 shadow-md md:p-8">
 
-          <h2 className="mb-6 text-center text-xl font-bold text-[#1F1F1F]">
+          <h2 className="mb-2 text-center text-xl font-bold text-[#1F1F1F] md:mb-6">
             OFERTAS DISPONIBLES
           </h2>
 
+          <p className="mb-4 text-center text-xs text-[#6D756D] md:hidden">
+            Desliza horizontalmente para ver todas las columnas →
+          </p>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto pb-1 [-webkit-overflow-scrolling:touch]">
 
             <table className="w-full min-w-[750px] text-left text-sm">
 

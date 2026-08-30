@@ -190,12 +190,12 @@ export default function Administrador() {
 
       <div className="mx-auto max-w-6xl">
 
-        <header className="rounded-t-2xl bg-[#3D4641] px-6 py-4 shadow-lg">
+        <header className="rounded-t-2xl bg-[#3D4641] px-4 py-4 shadow-lg sm:px-6">
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
 
-            <div>
-              <h1 className="text-xl font-bold tracking-wider text-[#F5F3EC]">
+            <div className="min-w-0">
+              <h1 className="truncate text-base font-bold tracking-wider text-[#F5F3EC] sm:text-xl">
                 ADMINISTRADOR
               </h1>
               <p className="mt-1 text-xs text-[#C3D0C6]">
@@ -216,7 +216,7 @@ export default function Administrador() {
                   hover:shadow-[0_0_14px_rgba(244,211,94,0.8)] active:scale-95
                 "
               >
-                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/70 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/70 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                 <i className="fa-solid fa-house relative z-10 text-sm transition-all duration-300 group-hover:scale-110 group-hover:rotate-3" />
               </Link>
 
@@ -232,7 +232,7 @@ export default function Administrador() {
                   hover:shadow-[0_0_14px_rgba(217,108,108,0.7)] active:scale-95
                 "
               >
-                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/70 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/70 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                 <i className="fa-solid fa-right-from-bracket relative z-10 text-sm transition-all duration-300 group-hover:scale-110 group-hover:-rotate-3" />
               </button>
 
@@ -337,8 +337,12 @@ export default function Administrador() {
               </h3>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
+            <p className="mb-3 text-center text-xs text-[#6D756D] md:hidden">
+              Desliza horizontalmente para ver todas las columnas →
+            </p>
+
+            <div className="overflow-x-auto pb-1 [-webkit-overflow-scrolling:touch]">
+              <table className="w-full min-w-[520px] text-left text-sm">
                 <thead>
                   <tr className="border-b border-[#A8D5BA] text-xs uppercase tracking-wide text-[#40534A]">
                     <th className="px-3 py-3">Material</th>
@@ -381,16 +385,16 @@ export default function Administrador() {
                           {material.estado}
                         </td>
                         <td className="px-3 py-3">
-                          <div className="flex justify-center gap-5">
+                          <div className="flex justify-center gap-2 sm:gap-5">
                             {editandoId === material.id_material ? (
                               <>
                                 <button
                                   type="button"
                                   title="Guardar precio"
                                   onClick={() => guardarPrecio(material.id_material)}
-                                  className="text-[#39734A] transition-all duration-300 hover:scale-125"
+                                  className="flex h-11 w-11 items-center justify-center rounded-lg text-[#39734A] transition-all duration-300 hover:bg-[#CFE5D4] active:scale-95 touch-manipulation"
                                 >
-                                  <i className="fa-solid fa-check" />
+                                  <i className="fa-solid fa-check text-base" />
                                 </button>
                                 <button
                                   type="button"
@@ -399,9 +403,9 @@ export default function Administrador() {
                                     setEditandoId(null);
                                     setPrecioEditado("");
                                   }}
-                                  className="text-[#6D756D] transition-all duration-300 hover:scale-125"
+                                  className="flex h-11 w-11 items-center justify-center rounded-lg text-[#6D756D] transition-all duration-300 hover:bg-[#E8ECE8] active:scale-95 touch-manipulation"
                                 >
-                                  <i className="fa-solid fa-xmark" />
+                                  <i className="fa-solid fa-xmark text-base" />
                                 </button>
                               </>
                             ) : (
@@ -411,9 +415,9 @@ export default function Administrador() {
                                   title="Editar precio"
                                   onClick={() => iniciarEdicion(material)}
                                   disabled={material.estado === "inactivo"}
-                                  className="text-[#1F1F1F] transition-all duration-300 hover:scale-125 hover:text-[#39734A] disabled:cursor-not-allowed disabled:opacity-40"
+                                  className="flex h-11 w-11 items-center justify-center rounded-lg text-[#1F1F1F] transition-all duration-300 hover:bg-[#CFE5D4] hover:text-[#39734A] active:scale-95 touch-manipulation disabled:cursor-not-allowed disabled:opacity-40"
                                 >
-                                  <i className="fa-solid fa-pen-to-square" />
+                                  <i className="fa-solid fa-pen-to-square text-base" />
                                 </button>
                                 <button
                                   type="button"
@@ -423,18 +427,18 @@ export default function Administrador() {
                                       : "Reactivar precio"
                                   }
                                   onClick={() => cambiarEstadoMaterial(material)}
-                                  className={
+                                  className={`flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-300 active:scale-95 touch-manipulation ${
                                     material.estado === "activo"
-                                      ? "text-[#D96C6C] transition-all duration-300 hover:scale-125 hover:text-[#C94F4F]"
-                                      : "text-[#39734A] transition-all duration-300 hover:scale-125 hover:text-[#6FAF7B]"
-                                  }
+                                      ? "text-[#D96C6C] hover:bg-[#F5D0CE] hover:text-[#C94F4F]"
+                                      : "text-[#39734A] hover:bg-[#CFE5D4] hover:text-[#6FAF7B]"
+                                  }`}
                                 >
                                   <i
-                                    className={
+                                    className={`text-base ${
                                       material.estado === "activo"
                                         ? "fa-solid fa-trash"
                                         : "fa-solid fa-rotate-left"
-                                    }
+                                    }`}
                                   />
                                 </button>
                               </>
